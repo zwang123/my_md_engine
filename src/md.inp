@@ -1,0 +1,8 @@
+    &BeGIN MATHEvAL
+    FUnC x^2+1+sin(y) + z +log(k)
+    VaR x y     z     k  
+  &EnD       
+    &BeGIN MaTHEvAL
+    FUnC x^2+1+sin(y) + z +log(k)
+    VaR x y     z     k  
+  &EnD       
