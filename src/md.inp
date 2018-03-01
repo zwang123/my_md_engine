@@ -1,8 +1,17 @@
     &BeGIN MATHEvAL
     FUnC x^2+1+sin(y) + z +log(k)
     VaR x y     z     k  
+    label f1
   &EnD       
     &BeGIN MaTHEvAL
     FUnC x^2+1+sin(y) + z +log(k)
     VaR x y     z     k  
+    label f2
   &EnD       
+
+  &Begin velocity_verley
+  step 1
+  &end
+
+  &begin system
+  &end

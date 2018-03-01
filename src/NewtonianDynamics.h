@@ -6,7 +6,7 @@
 class NewtonianDynamics final
 : public Dynamics {
   NewtonianDynamics(const class CommandOption &co) : Dynamics(co) {}
-  void setAccelaration(class AtomVector &) const override {}
+  void setAccelaration(class AtomVector &) const override;
   ;
 };
 

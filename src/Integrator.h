@@ -7,7 +7,9 @@
 class Integrator
 : public ModifyCommand
 {
+protected:
   TimeStep ts;
+  std::shared_ptr<class AtomVector> av;
 public:
   Integrator (const class CommandOption &);
   virtual ~Integrator () {}
