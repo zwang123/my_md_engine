@@ -44,6 +44,11 @@ public:
   void setup();
   // Run the commands
   void run(size_t = 1);
+
+  std::shared_ptr<class System> getSystem() const noexcept {return sys;}
+  std::shared_ptr<class Integrator> getIntegrator() const noexcept {return integrator;}
+  std::shared_ptr<class Dynamics> getDynamics() const noexcept {return dyn;}
+
 private:
   // Select Commands based on type
   template <typename T>

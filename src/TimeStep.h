@@ -16,6 +16,7 @@ public:
   void setStep(StepType _step) noexcept {step = _step;}
   StepType getStep() const noexcept {return step;}
   double getTime() const noexcept {return step*dt;}
+  double getInterval() const noexcept {return dt;}
 };
 
 #endif // TIME_STEP_H_INCLUDED
