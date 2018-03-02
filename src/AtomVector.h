@@ -9,6 +9,7 @@ class AtomVector final
 public:
   using Value              = double;
   using ValueVector        = std::vector<double>;
+  using size_type          = ValueVector::size_type;
   using Type               = ValueVector::size_type;
   using TypeVector         = std::vector<Type>;
   using ValueIterator      = ValueVector::iterator;
@@ -26,7 +27,7 @@ private:
   ValueVector forceVector;
 public:
 
-  static constexpr const Type dim = 1;
+  static constexpr const size_type dim = 1;
 #ifdef DEBUG
   std::shared_ptr<class Atom> addAtom();
 #endif // DEBUG
@@ -46,12 +47,19 @@ public:
   const TypeVector  &getConstTypeVector() const {return typeVector;}
   const ValueVector &getConstForceVector() const {return forceVector;}
 
+  size_type size() const { return forceVector.size(); }
+  size_type atomNumber() const { return typeVector.size(); }
+
   bool check() {return 
-    dim * massVector.size() == positionVector.size() &&
-    dim * massVector.size() == velocityVector.size() &&
-    dim * massVector.size() == accelerationVector.size() &&
-    massVector.size() == typeVector.size();
+    massVector.size() == positionVector.size() &&
+    massVector.size() == velocityVector.size() &&
+    massVector.size() == accelerationVector.size() &&
+    massVector.size() == dim * typeVector.size();
   }
+
+  std::pair<std::vector<size_type>, ValueVector> slicePositionVector(const std::vector<size_type> &) const;
+
+  void clearForce() {forceVector.assign(forceVector.size(), 0.0);}
 };
 
 #endif // ATOM_VECTOR_H_INCLUDED

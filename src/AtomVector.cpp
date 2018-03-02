@@ -35,3 +35,19 @@ AtomVector::addAtom()
   return addAtom(0, 1.0, rand() % box);
 }
 #endif // DEBUG
+
+auto AtomVector::slicePositionVector(const std::vector<size_type> &slice) const
+-> std::pair<std::vector<size_type>, ValueVector>
+{
+  ValueVector result;
+  std::vector<size_type> indicies;
+  for (const auto &index : slice) {
+    auto start = index * dim;
+    auto end = start + dim;
+    for (auto j = start; j != end; ++j) {
+      indicies.push_back(j);
+      result.push_back(positionVector[j]);
+    }
+  }
+  return {indicies, result};
+}

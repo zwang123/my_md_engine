@@ -7,7 +7,10 @@
 #include "Command.h"
 #include "CommandGenerator.h"
 #include "CommandOption.h"
+#include "Dynamics.h"
 #include "Engine.h"
+#include "Integrator.h"
+#include "System.h"
 #include "RunCommand.h"
 #include "Tools.h"
 
@@ -33,19 +36,21 @@ std::istream &Engine::read(std::istream &is)
         cmdLines.clear();
         matched = false;
 
+        // Could put them into postConstruct
+        setPtr(sys, "SYSTEM");
+        setPtr(integrator, "INTEGRATOR");
+        setPtr(dyn, "DYNAMICS");
+
         auto curr_cmd = cmd.back();
-        auto curr_sys = sys;
+
+        curr_cmd->postConstruct();
+
         std::shared_ptr<RunCommand> curr_run;
 
-        if ((curr_sys = std::dynamic_pointer_cast<class System>(curr_cmd))) {
-          if (sys) {
-            throw std::invalid_argument("Two SYSTEM commands");
-          } else {
-            sys = curr_sys;
-          }
-        } else if ((curr_run = std::dynamic_pointer_cast<RunCommand>(curr_cmd))) {
+        if ((curr_run = std::dynamic_pointer_cast<RunCommand>(curr_cmd))) {
           setup();
           curr_run->run();
+          cmd.pop_back();
         }
       } else {
         cmdLines.push_back(line);
@@ -90,7 +95,7 @@ void Engine::run(size_t n)
   //TODO
 }
 
-std::shared_ptr<Command> Engine::selectFromLabel(std::string label) const noexcept
+std::shared_ptr<Command> Engine::selectFromLabel(const std::string &label) const noexcept
 { 
   for (const auto &x : cmd)
     if (x->getLabel() == label)
