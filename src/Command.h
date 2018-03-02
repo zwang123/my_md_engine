@@ -52,9 +52,10 @@ public:
 template <typename T>
 std::pair<T, int> Command::parseOptional(const char *key)
 {
-  std::istringstream iss(key);
+  auto line = findKey(key);
+  std::istringstream iss(line);
   T result;
-  if (iss && !iss.eof()) {
+  if (!line.empty() && iss && !iss.eof()) {
     iss >> result;
     if (iss) {
       if(!iss.eof()) {
@@ -98,9 +99,10 @@ template <typename T>
 std::pair<std::vector<T>, int> 
 Command::parseOptionalVector(const char *key)
 {
-  std::istringstream iss(findKey(key));
+  auto line = findKey(key);
+  std::istringstream iss(line);
   std::vector<T> result;
-  while (iss && !iss.eof()) {
+  while (!line.empty() && iss && !iss.eof()) {
     T item;
     iss >> item;
     result.push_back(item);

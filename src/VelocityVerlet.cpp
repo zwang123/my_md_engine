@@ -44,4 +44,6 @@ void VelocityVerley::setup()
   if(engine->getDynamics()) {
     engine->getDynamics()->setAcceleration(av);
   }
+  // does not change acceleration  if no dynamics
+  // may be non-zero
 }

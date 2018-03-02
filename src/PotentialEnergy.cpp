@@ -18,7 +18,7 @@ PotentialEnergy::PotentialEnergy(const class CommandOption &co)
   , inputFunction (engine->selectFromLabelVector<Function>(args))
 {
   auto map_file = parseCompulsoryString("MAP_FILE");
-  auto par_file = parseCompulsoryString("PAR_FILE");
+  auto par_file = parseString("PAR_FILE");
   assert(fp);
   assert(engine->getSystem());
   // TODO if nullptr, should throw
@@ -48,8 +48,10 @@ void PotentialEnergy::calculate(std::shared_ptr<const AtomVector> av)
       jacobian.push_back(f->getDerivative());
     }
 
-    const auto &currPars = parameters[p.second];
-    funcInput.insert(funcInput.end(), currPars.cbegin(), currPars.cend());
+    if (!parameters.empty()) {
+      const auto &currPars = parameters[p.second];
+      funcInput.insert(funcInput.end(), currPars.cbegin(), currPars.cend());
+    }
 
     fp->calculate(funcInput);
     energy += fp->getValue();
@@ -71,6 +73,7 @@ void PotentialEnergy::calculate(std::shared_ptr<const AtomVector> av)
 
 void PotentialEnergy::constructPar(const std::string &filename)
 {
+  if (filename.empty()) return;
   using Data = double;
 
   std::ifstream ifs(filename);
