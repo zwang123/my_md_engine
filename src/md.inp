@@ -4,12 +4,13 @@
     label f1
   &EnD       
     &BeGIN MaTHEvAL
-    FUnC x^2+1+sin(y) + z +log(k)
-    VaR x y     z     k  
+    FUnC 1./6. * ( 4. * (1 - x*x - y*y) ^ 2 + 2* ( x*x -2) ^ 2 +((x+y)^2-1)^2 + ((x-y)^2-1)^2)
+    VaR x y    
     label f2
   &EnD       
 
   &begin system
+  file atom.inp
   &end
 
   &begin newtonian
@@ -17,16 +18,22 @@
 #e
   &end
 
-  &begin velocity_verley
+  &begin velocity_verlet
   timestep 1
   currstep 9
   &end
 
+    &BeGIN MaTHEvAL
+    FUnC x
+    VaR x     
+    label fself
+  &EnD       
+
   &begin potential_energy
-  arg f1
+  arg fself fself
   func f2
-  map_file lkjlaksdf
-  par_file lakjflkj
+  map_file map.inp
+#par_file par.inp
 #
   &end
 

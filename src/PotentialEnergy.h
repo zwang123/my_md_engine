@@ -8,7 +8,7 @@
 #include <string>
 
 class PotentialEnergy final
-: private std::enable_shared_from_this<PotentialEnergy>,
+: public std::enable_shared_from_this<PotentialEnergy>,
   public SetupCommand {
   using size_type = AtomVector::size_type;
 

@@ -1,6 +1,7 @@
 #ifndef ATOM_VECTOR_H_INCLUDED
 #define ATOM_VECTOR_H_INCLUDED
 
+#include <array>
 #include <memory>
 #include <vector>
 
@@ -8,7 +9,7 @@ class AtomVector final
 {
 public:
   using Value              = double;
-  using ValueVector        = std::vector<double>;
+  using ValueVector        = std::vector<Value>;
   using size_type          = ValueVector::size_type;
   using Type               = ValueVector::size_type;
   using TypeVector         = std::vector<Type>;
@@ -16,6 +17,8 @@ public:
   using ConstValueIterator = ValueVector::const_iterator;
   using TypeIterator       = TypeVector::iterator;
   using ConstTypeIterator  = TypeVector::const_iterator;
+  static constexpr const size_type dim = 1;
+  using ValueArray         = std::array<Value, dim>;
 private:
   // Expand mass Vector to 3N dimensional?
   ValueVector massVector;
@@ -27,12 +30,13 @@ private:
   ValueVector forceVector;
 public:
 
-  static constexpr const size_type dim = 1;
 #ifdef DEBUG
   std::shared_ptr<class Atom> addAtom();
 #endif // DEBUG
 
-  std::shared_ptr<class Atom> addAtom(const Type, const Value, const Value, const Value = 0.0, const Value = 0.0);
+  std::shared_ptr<class Atom> addAtom(const Type, const Value, 
+      const ValueArray &, const ValueArray & = ValueArray{{0.0}}, 
+      const ValueArray & = ValueArray{{0.0}});
 
   ValueVector &getMassVector() {return massVector;}
   ValueVector &getPositionVector() {return positionVector;}
