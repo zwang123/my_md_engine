@@ -41,6 +41,7 @@ public:
   double getValue() const { return value; }
   // User make sure not out of range
   double getDerivative(const size_t i) const {return derivative[i];}
+  std::vector<double> getDerivative() const {return derivative;}
 };
 
 //inline

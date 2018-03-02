@@ -7,7 +7,9 @@ class VelocityVerley final
 : public Integrator
 {
 public:
-  virtual void integrate () override;
+  VelocityVerley(const class CommandOption &co) : Integrator(co) {}
+  void integrate () override;
+  void setup () override;
   static constexpr const char *directive = "VELOCITY_VERLET";
 };
 

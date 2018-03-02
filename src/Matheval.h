@@ -29,7 +29,7 @@ public:
   //void setValues(const vector<double> &);
   //void setValues(vector<double> &&) noexcept;
   //static void registerKeywords(Keywords& keys);
-  void run() override;
+  //void run() override;
 
   static constexpr const char *directive = "MATHEVAL";
 };

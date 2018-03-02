@@ -29,8 +29,8 @@ REGISTER_COMMAND(Matheval)
 
 Matheval::Matheval(const CommandOption &co):
   Function(co),
-  var(parseStringVector("VAR")),
-  func(parseString("FUNC")),
+  var(parseVector<string>("VAR")),
+  func(parseCompulsoryString("FUNC")),
   // Assume evaluator_create does not change func
   evaluator(evaluator_create(const_cast<char*>(func.c_str())))
 {
@@ -150,36 +150,36 @@ Matheval::~Matheval()
   for (auto & x : evaluator_deriv) evaluator_destroy(x);
 }
 
-void Matheval::run()
-{
-//TODO
-#ifdef DEBUG
-  std::cout << label << std::endl;
-  std::cout << (dynamic_cast<Matheval*>(engine->selectFromLabel("@L1").get())
-      == this) << std::endl;
-
-  //setValues(vector<double>{{1,2,3}});
-  //calculate();
-  if (getNumberOfArguments() == 0)
-    return;
-  vector<double> values{{2. , 3.1415926 * .5, 3. , 2.71828}};
-  calculate(values);
-
-  std::cout << "f(";
-  for (size_t i = 0; i != getNumberOfArguments() - 1; ++i)
-    std::cout << var[i] << ",";
-  std::cout << var.back() << ") = " << func << std::endl;
-
-  for (size_t i = 0; i != getNumberOfArguments(); ++i)
-    std::cout << var[i] << " = " << values[i] << std::endl;
-
-  std::cout << "Results:" << std::endl;
-  std::cout << "f = " << getValue() << std::endl;
-
-  for (size_t i = 0; i != getNumberOfArguments(); ++i)
-    std::cout << "df/d" << var[i] << " = " << getDerivative(i) << std::endl;
-#endif // DEBUG
-}
+//void Matheval::run()
+//{
+////TODO
+//#ifdef DEBUG
+//  std::cout << label << std::endl;
+//  std::cout << (dynamic_cast<Matheval*>(engine->selectFromLabel("@L1").get())
+//      == this) << std::endl;
+//
+//  //setValues(vector<double>{{1,2,3}});
+//  //calculate();
+//  if (getNumberOfArguments() == 0)
+//    return;
+//  vector<double> values{{2. , 3.1415926 * .5, 3. , 2.71828}};
+//  calculate(values);
+//
+//  std::cout << "f(";
+//  for (size_t i = 0; i != getNumberOfArguments() - 1; ++i)
+//    std::cout << var[i] << ",";
+//  std::cout << var.back() << ") = " << func << std::endl;
+//
+//  for (size_t i = 0; i != getNumberOfArguments(); ++i)
+//    std::cout << var[i] << " = " << values[i] << std::endl;
+//
+//  std::cout << "Results:" << std::endl;
+//  std::cout << "f = " << getValue() << std::endl;
+//
+//  for (size_t i = 0; i != getNumberOfArguments(); ++i)
+//    std::cout << "df/d" << var[i] << " = " << getDerivative(i) << std::endl;
+//#endif // DEBUG
+//}
 
 
 //}

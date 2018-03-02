@@ -32,9 +32,16 @@ void VelocityVerley::integrate()
             px = positionVector.begin();
        pv != pve; ++pv)
     (*px++) += *pv * dt;
-  engine->getDynamics()->setAcceleration(av);
+  setup();
   for (auto pv = velocityVector.begin(), 
             pa = accelerationVector.begin();
        pv != pve; ++pv)
     *pv += *pa++ * hdt;
+}
+
+void VelocityVerley::setup()
+{
+  if(engine->getDynamics()) {
+    engine->getDynamics()->setAcceleration(av);
+  }
 }

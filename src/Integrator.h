@@ -15,6 +15,7 @@ public:
   virtual ~Integrator () {}
   virtual void integrate () = 0;
   void run () override {this->integrate();}
+  void setup () override = 0;
   ;
 };
 

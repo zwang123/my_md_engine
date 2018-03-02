@@ -1,12 +1,24 @@
 #include "AtomVector.h"
+#include "CommandGenerator.h"
+#include "Engine.h"
+#include "ForceField.h"
+#include "System.h"
 #include "NewtonianDynamics.h"
 
+REGISTER_COMMAND(NewtonianDynamics)
+
 // assume one d?
-void NewtonianDynamics::setAccelaration(AtomVector &av) const
+void NewtonianDynamics::setAcceleration(std::shared_ptr<AtomVector> av) const
 {
-  auto massVector = av.getConstMassVector();
-  auto forceVector = av.getConstForceVector();
-  auto accelerationVector = av.getAccelerationVector();
+
+  av->clearForce();
+  auto ff = engine->getSystem()->getForceField();
+  ff->calculate(av);
+  ff->apply(av);
+
+  auto massVector = av->getConstMassVector();
+  auto forceVector = av->getConstForceVector();
+  auto accelerationVector = av->getAccelerationVector();
 
   auto pe = massVector.cend();
 

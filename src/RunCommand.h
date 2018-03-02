@@ -11,7 +11,7 @@ class RunCommand final
 public:
   RunCommand(const class CommandOption &);
   void run() override {engine->run(steps);}
-  ;
+  static constexpr const char *directive = "RUN";
 };
 
 #endif // RUN_COMMAND_H_INCLUDED

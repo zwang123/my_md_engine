@@ -1,4 +1,7 @@
+#include "CommandGenerator.h"
 #include "RunCommand.h"
+
+REGISTER_COMMAND(RunCommand)
 
 RunCommand::RunCommand(const class CommandOption &co)
   : Command(co)

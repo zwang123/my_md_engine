@@ -9,9 +9,29 @@
     label f2
   &EnD       
 
-  &Begin velocity_verley
-  step 1
+  &begin system
   &end
 
-  &begin system
+  &begin newtonian
+#
+#e
+  &end
+
+  &begin velocity_verley
+  timestep 1
+  currstep 9
+  &end
+
+  &begin potential_energy
+  arg f1
+  func f2
+  map_file lkjlaksdf
+  par_file lakjflkj
+#
+  &end
+
+
+
+  &begin run
+  step 12
   &end

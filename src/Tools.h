@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include "Engine.h"
 
 struct Tools
 {
@@ -45,7 +46,8 @@ struct Tools
 
   // indicator_list must be null-terminated string
   static std::string trim_comment_whitespace(const std::string &s, 
-                                  const char *indicator_list)
+                                  const char *indicator_list = 
+                                  Engine::COMMENT)
   {
     auto pos = s.find_first_of(indicator_list);
     return trim_whitespace(s, pos);

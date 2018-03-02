@@ -20,9 +20,9 @@ class Engine final
   std::shared_ptr<class Integrator> integrator;
   std::shared_ptr<class Dynamics> dyn;
 
-  constexpr static const char *COMMENT = "#";
   std::ostream &os;
 public:
+  constexpr static const char *COMMENT = "#";
   // Construct the empty engine
   explicit Engine(std::ostream &os = std::cout) : os(os) {}
 
@@ -63,9 +63,42 @@ private:
     }
     return result;
   }
+
+  template <typename T>
+  bool checkDuplicate() const
+  {
+    return select<T>().size() > 1;
+  }
+
+  template <typename T>
+  void setPtr(std::shared_ptr<T> &p, std::string cmdName)
+  {
+    std::shared_ptr<T> curr_ptr;
+    if ((curr_ptr = std::dynamic_pointer_cast<T>(cmd.back()))) {
+      if (p) {
+        throw std::invalid_argument("Two " + cmdName + " commands");
+      } else {
+        p = curr_ptr;
+      }
+    }
+  }
+
 public:
   // Select Commands based on label
-  std::shared_ptr<Command> selectFromLabel(std::string) const noexcept;
+  std::shared_ptr<Command> selectFromLabel(const std::string &) const noexcept;
+
+  template <typename T>
+  std::shared_ptr<T> selectFromLabel(const std::string &label) const noexcept
+  { return std::dynamic_pointer_cast<T>(selectFromLabel(label)); }
+
+  template <typename T>
+  std::vector<std::shared_ptr<T>> selectFromLabelVector(const std::vector<std::string> &labels) const noexcept
+  { 
+    std::vector<std::shared_ptr<T>> result;
+    for (const auto &s : labels)
+      result.push_back(selectFromLabel<T>(s));
+    return result;
+  }
 };
 
 #endif // ENGINE_H_INCLUDED

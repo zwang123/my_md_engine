@@ -22,6 +22,7 @@
 //};
 
 #include "AtomVector.h"
+//#include <cassert>
 
 class Atom final
 {
@@ -29,6 +30,7 @@ public:
   using Value              = AtomVector::Value;
   using ValueVector        = AtomVector::ValueVector;
   using Type               = AtomVector::Type;
+  using size_type          = AtomVector::size_type;
   using TypeVector         = AtomVector::TypeVector;
   using ValueIterator      = AtomVector::ValueIterator;
   using ConstValueIterator = AtomVector::ConstValueIterator;
@@ -47,10 +49,10 @@ private:
 public:
 //TODO pbc??
   static constexpr const int box = 10;
-  static constexpr const AtomVector::Type dim = AtomVector::dim;
+  static constexpr const size_type dim = AtomVector::dim;
 
   Type getType() const {return *type;}
-  Value getPosition() const {return *position;}
+  ValueVector getPosition() const {return ValueVector(position, position + dim);}
 
   Atom (ConstTypeIterator type, ConstValueIterator mass, 
         ValueIterator position, ValueIterator velocity, 
