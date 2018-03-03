@@ -20,7 +20,7 @@ protected:
 
   std::string findKey(const char *);
 public:
-  std::string getLabel() const {return label;}
+  const std::string &getLabel() const {return label;}
   // This allow white space in string
   std::string parseString(const char *);
   std::string parseCompulsoryString(const char *);

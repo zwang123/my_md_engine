@@ -10,6 +10,13 @@
 #include <memory>
 #include <utility>
 
+#ifdef DEBUG
+#include "print_vector.h"
+#include <iostream>
+#include <iterator>
+#include <algorithm>
+#endif // DEBUG
+
 REGISTER_COMMAND(PotentialEnergy)
 
 PotentialEnergy::PotentialEnergy(const class CommandOption &co)
@@ -24,6 +31,24 @@ PotentialEnergy::PotentialEnergy(const class CommandOption &co)
   // TODO if nullptr, should throw
   constructMap (map_file);
   constructPar (par_file);
+#ifdef DEBUG
+  {
+    std::ostream_iterator<double> oid(std::cout, "\n");
+    std::ostream_iterator<size_type> ois(std::cout, "\n");
+
+    std::cout << "Map file: " << std::endl;
+    for (const auto &x : potential_map) {
+      std::cout << "\tSecond: " << x.second << std::endl;
+      std::copy(x.first.cbegin(), x.first.cend(), ois);
+    }
+
+    std::cout << "Par file: " << std::endl;
+    for (const auto &x : parameters) {
+      std::copy(x.cbegin(), x.cend(), oid);
+    }
+  }
+#endif // DEBUG
+  checkInput();
 }
 
 void PotentialEnergy::postConstruct()
@@ -42,10 +67,17 @@ void PotentialEnergy::calculate(std::shared_ptr<const AtomVector> av)
 
     auto &&idx_and_pos = av->slicePositionVector(p.first);
     auto input = std::move(idx_and_pos.second);
+    assert(!input.empty());
+#ifdef DEBUG
+    //printVector(input) << std::endl;
+#endif // DEBUG
     for (const auto &f : inputFunction) {
       f->calculate(input);
       funcInput.push_back(f->getValue());
       jacobian.push_back(f->getDerivative());
+#ifdef DEBUG
+      //printVector(f->getDerivative()) << std::endl;
+#endif // DEBUG
     }
 
     if (!parameters.empty()) {
@@ -53,15 +85,26 @@ void PotentialEnergy::calculate(std::shared_ptr<const AtomVector> av)
       funcInput.insert(funcInput.end(), currPars.cbegin(), currPars.cend());
     }
 
+    assert(!funcInput.empty());
+#ifdef DEBUG
+    //printVector(funcInput) << std::endl;
+#endif // DEBUG
     fp->calculate(funcInput);
     energy += fp->getValue();
     auto der = fp->getDerivative();
+#ifdef DEBUG
+    //printVector(fp->getDerivative()) << std::endl;
+#endif // DEBUG
     
     //auto n = av->size();
     // assert(!jacobian.empty())
-    auto &indicies = idx_and_pos.first;
+    const auto &indicies = idx_and_pos.first;
     const auto ni = inputFunction.size();
     const auto nj = indicies.size();
+
+#ifdef DEBUG
+    //printVector(indicies) << std::endl;
+#endif // DEBUG
 
     for (size_type i = 0; i != ni; ++i) {
       for (size_type j = 0; j != nj; ++j) {
@@ -83,9 +126,10 @@ void PotentialEnergy::constructPar(const std::string &filename)
   //std::vector<std::vector<Data>> result;
 
   while (getline(ifs, line)) {
-    std::istringstream iss(Tools::trim_comment_whitespace(line));
+    line = Tools::trim_comment_whitespace(line);
+    std::istringstream iss(line);
     std::vector<Data> parsedLine;
-    while (iss && !iss.eof()) {
+    while (!line.empty() && iss && !iss.eof()) {
       double item;
       iss >> item;
       parsedLine.push_back(item);
@@ -107,14 +151,24 @@ void PotentialEnergy::constructMap(const std::string &filename)
   //std::vector<std::vector<Data>> result;
 
   while (getline(ifs, line)) {
-    std::istringstream iss(Tools::trim_comment_whitespace(line));
+    line = Tools::trim_comment_whitespace(line);
+    std::istringstream iss(line);
     std::vector<Data> parsedLine;
-    while (iss && !iss.eof()) {
+    while (!line.empty() && iss && !iss.eof()) {
       double item;
       iss >> item;
       parsedLine.push_back(item);
     }
     if (!parsedLine.empty()) {
+#ifdef DEBUG
+      //{
+      //  std::ostream_iterator<size_type> ois(std::cout, "\t");
+
+      //  std::cout << "ParsedLine: " << parsedLine.size() << std::endl;
+      //  std::copy(parsedLine.cbegin(), parsedLine.cend(), ois);
+      //  std::cout << std::endl;
+      //}
+#endif // DEBUG
       auto target = parsedLine.back();
       parsedLine.pop_back();
       potential_map[std::move(parsedLine)] = target;
@@ -124,3 +178,32 @@ void PotentialEnergy::constructMap(const std::string &filename)
   ifs.close();
 }
 
+bool PotentialEnergy::checkInput() const
+{
+  size_type n;
+  bool is_first = true;
+  for (const auto &x : potential_map) {
+    if (is_first) {
+      n = x.first.size();
+      is_first = false;
+    }
+    assert(x.first.size() == n);
+    if (x.first.size() != n) return false;
+  }
+  is_first = true;
+  for (const auto &x : parameters) {
+    if (is_first) {
+      n = x.size();
+      is_first = false;
+    }
+    assert(x.size() == n);
+    if (x.size() != n) return false;
+  }
+  for (const auto &x : inputFunction) {
+    if (!x) {
+      assert(x);
+      return false;
+    }
+  }
+  return true;
+}

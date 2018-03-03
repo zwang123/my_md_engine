@@ -52,7 +52,11 @@ public:
   static constexpr const size_type dim = AtomVector::dim;
 
   Type getType() const {return *type;}
+  Value getMass() const {return *mass;}
   ValueVector getPosition() const {return ValueVector(position, position + dim);}
+  ValueVector getVelocity() const {return ValueVector(velocity, velocity + dim);}
+  ValueVector getAcceleration() const {return ValueVector(acceleration, acceleration + dim);}
+  ValueVector getForce() const {return ValueVector(force, force + dim);}
 
   Atom (ConstTypeIterator type, ConstValueIterator mass, 
         ValueIterator position, ValueIterator velocity, 

@@ -11,6 +11,7 @@ public:
   void integrate () override;
   void setup () override;
   static constexpr const char *directive = "VELOCITY_VERLET";
+  void end_of_step ();
 };
 
 #endif // VELOCITY_VERLET_H_INCLUDED

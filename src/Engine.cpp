@@ -14,6 +14,13 @@
 #include "RunCommand.h"
 #include "Tools.h"
 
+#ifdef DEBUG
+#include "PotentialEnergy.h"
+#include <iostream>
+#include <iterator>
+#include <algorithm>
+#endif // DEBUG
+
 std::istream &Engine::read(std::istream &is)
 {
   // one line of the file
@@ -31,9 +38,18 @@ std::istream &Engine::read(std::istream &is)
 
     if (matched) {
       if (Tools::toupper_cpy(line) == "&END") {
-        cmd.push_back(CommandGenerator::create(cmdName, 
-              CommandOption(shared_from_this(), std::move(cmdLines))));
+#ifdef DEBUG
+        //std::cout << __LINE__ << std::endl;
+        //std::copy(cmdLines.cbegin(), cmdLines.cend(), std::ostream_iterator<std::string>(std::cout, "\n"));
+        //std::cout << std::endl;
+#endif // DEBUG
+        auto curr_cmd = CommandGenerator::create(cmdName, 
+              CommandOption(shared_from_this(), std::move(cmdLines)));
         cmdLines.clear();
+        cmd.push_back(curr_cmd);
+#ifdef DEBUG
+        //std::cout << __LINE__ << std::endl;
+#endif // DEBUG
         matched = false;
 
         // Could put them into postConstruct
@@ -41,7 +57,12 @@ std::istream &Engine::read(std::istream &is)
         setPtr(integrator, "INTEGRATOR");
         setPtr(dyn, "DYNAMICS");
 
-        auto curr_cmd = cmd.back();
+#ifdef DEBUG
+        //auto doo = select<class PotentialEnergy>();
+        //for (const auto &p : doo)
+        //  std::cout << p.use_count() << std::endl;
+        //std::cout << __LINE__ << std::endl;
+#endif // DEBUG
 
         curr_cmd->postConstruct();
 

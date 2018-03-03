@@ -3,9 +3,10 @@ OBJ = $(SRC:.cpp=.o)
 SHFLAGS :=  -fPIC
 DEPENDS = $(SRC:.cpp=.d)
 
-CC  := icpc -O3 -qopenmp -qoverride-limits -g -Wall -std=c++14 -Wextra \
+CC  := icpc -O3 -qopenmp -qoverride-limits -g -Wall -std=c++11 -Wextra \
 	  -pedantic -xHOST -no-inline-max-size -no-inline-max-total-size \
-		-DDEBUG
+		-DNDEBUG -DTHERMO #-DDEBUG
+#CC  := g++ -O0 -g -Wall -std=c++11 -Wextra -pedantic -DDEBUG
 LINK = $(CC)
 DEPFLAGS := -M
 OUT := md

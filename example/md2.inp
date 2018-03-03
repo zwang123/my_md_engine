@@ -1,0 +1,48 @@
+    &BeGIN MaTHEvAL
+    FUnC  d^4-d^2 * k^2
+    VaR d k
+    label f2
+  &EnD       
+
+  &begin system
+  file atom.inp
+  &end
+
+  &begin newtonian
+#
+#e
+  &end
+
+  &begin velocity_verlet
+  timestep .5e-1
+  &end
+
+    &BeGIN MaTHEvAL
+    FUnC abs(x-y) -1
+    VaR x y    
+    label dist
+    file colvar
+  &EnD       
+
+
+  &begin potential_energy
+  arg dist
+  func f2
+  map_file map.inp
+par_file par.inp
+#
+  &end
+
+
+  &begin trajectory
+  file traj
+#every 3
+#flush 34
+  &end
+
+
+  &begin run
+step 32000000
+#step 12000 #0000
+#step 120
+  &end

@@ -12,23 +12,28 @@
 #include "Command.h"
 
 //class Command; // Do not allow incomplete type
+//
+//To avoid bad_weak_ptr in derived class of Command, 
+//  use shared_ptr instead of unique_ptr
+//  because the counter of internal weak_ptr is set 
+//  in the constructor of shared_ptr
 class CommandOption;
 
 class CommandGenerator final {
   using CommandConstructor = std::function<
-  std::unique_ptr<Command>(const CommandOption &)>;
+  std::shared_ptr<Command>(const CommandOption &)>;
   
 private:
   template <typename T, typename ...Args>
-  static std::unique_ptr<Command> commandConstruct (Args&&... args)
+  static std::shared_ptr<Command> commandConstruct (Args&&... args)
   {
-    return std::make_unique<T>(std::forward<Args>(args)...);
+    return std::make_shared<T>(std::forward<Args>(args)...);
   }
  
   static std::map<std::string, CommandConstructor> commandMap;
 
   template <typename T>
-  static std::unique_ptr<Command> commandConstructFromOption
+  static std::shared_ptr<Command> commandConstructFromOption
   (const CommandOption &co)
   {
     return commandConstruct<T>(co);
@@ -46,7 +51,7 @@ public:
     }
   }
 
-  static std::unique_ptr<Command> create (const std::string &directive,
+  static std::shared_ptr<Command> create (const std::string &directive,
                                           const CommandOption &co)
   {
     auto p = commandMap.find(directive);
@@ -67,7 +72,7 @@ public:
 // If fail to compile, move this line in between 
 //   REGISTER_COMMAND and static struct
 // and decomment
-  //constexpr const char *classname::directive; \
+  //constexpr const char *classname::directive; 
   //
 #define REGISTER_COMMAND(classname) \
   static struct  __UNIQUENAME(classname##RegisterMe) {\
