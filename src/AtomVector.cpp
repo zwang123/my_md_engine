@@ -58,3 +58,27 @@ auto AtomVector::slicePositionVector(const std::vector<size_type> &slice) const
   }
   return {indicies, result};
 }
+
+
+std::shared_ptr<Atom> AtomVector::operator[] (size_type i)
+{
+  auto idim = i * dim;
+  return std::make_shared<Atom> 
+      (typeVector.cbegin() + i,
+      massVector.cbegin() + idim,
+      positionVector.begin() + idim,
+      velocityVector.begin() + idim,
+      accelerationVector.begin() + idim,
+      forceVector.begin() + idim);
+}
+
+AtomVector::Value AtomVector::kinetic() const
+{
+  Value ke = 0.0;
+  auto pend = velocityVector.cend();
+  for (auto pm = massVector.cbegin(),
+            pv = velocityVector.cbegin();
+            pv != pend; ++pv)
+    ke += (*pm++) * (*pv) * (*pv);
+  return (ke *= 0.5);
+}

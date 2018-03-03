@@ -64,6 +64,10 @@ public:
   std::pair<std::vector<size_type>, ValueVector> slicePositionVector(const std::vector<size_type> &) const;
 
   void clearForce() {forceVector.assign(forceVector.size(), 0.0);}
+
+  std::shared_ptr<class Atom> operator[] (size_type);
+
+  Value kinetic() const;
 };
 
 #endif // ATOM_VECTOR_H_INCLUDED

@@ -20,17 +20,22 @@
 
   &begin velocity_verlet
   timestep 1
-  currstep 9
   &end
 
     &BeGIN MaTHEvAL
     FUnC x
-    VaR x     
-    label fself
+    VaR x     y
+    label xself
+  &EnD       
+    &BeGIN MaTHEvAL
+    FUnC y
+    VaR x y    
+    label yself
   &EnD       
 
+
   &begin potential_energy
-  arg fself fself
+  arg xself yself
   func f2
   map_file map.inp
 #par_file par.inp
@@ -38,7 +43,11 @@
   &end
 
 
+  &begin trajectory
+  file traj
+  &end
+
 
   &begin run
-  step 12
+  step 1200
   &end

@@ -70,22 +70,23 @@ Matheval::Matheval(const CommandOption &co):
   //for (const auto &x : var)
   //  std::cout << x << std::endl;
 #endif // DEBUG
-  if(check_count!=static_cast<int>(getNumberOfArguments())) {
+  if(check_count>static_cast<int>(getNumberOfArguments())) {
     //string sc;
     //Tools::convert(check_count,sc);
     error("Your function string contains " +
           std::to_string(check_count) +
-          " arguments. This should be equal to the number of ARGs");
+          " arguments. This should be at most the number of ARGs");
   }
 
 
-  for(unsigned i=0; i<getNumberOfArguments(); i++) {
+  for(int j=0; j<check_count; ++j) {
     bool found=false;
-    for(unsigned j=0; j<getNumberOfArguments(); j++) {
+    for(unsigned i=0; i<getNumberOfArguments(); ++i) {
       if(var[i]==check_names[j])found=true;
     }
     if(!found)
-      error("Variable "+var[i]+" cannot be found in your function string");
+      //error("Variable "+var[i]+" cannot be found in your function string");
+      error("Variable "+std::string(check_names[j])+" cannot be found in your arg");
   }
 
   size_t n = getNumberOfArguments();

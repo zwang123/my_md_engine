@@ -16,7 +16,8 @@ public:
   virtual void integrate () = 0;
   void run () override {this->integrate();}
   void setup () override = 0;
-  ;
+
+  TimeStep getTimeStep () const noexcept {return ts;}
 };
 
 #endif // INTEGRATOR_H_INCLUDED

@@ -6,6 +6,10 @@
 #include <vector>
 #include "SetupCommand.h"
 
+#include "TimeStep.h"
+#include <fstream>
+//#include <iosfwd>
+
 //namespace function {
 
 class Function
@@ -15,6 +19,14 @@ class Function
   double value = 0.0;
   std::vector<double> derivative;
   //bool updated = false;
+  
+  // output
+  //const std::string fname;
+  TimeStep::StepType nevery;
+  TimeStep::StepType flush_every;
+
+  std::ofstream ofs;
+  //std::ostream &os;
 protected:
   void setValue(const double v) { value = v; }
   // User make sure not out of range
@@ -31,8 +43,8 @@ protected:
   void setNumberOfArguments(const size_t n) {derivative.resize(n);}
   size_t getNumberOfArguments() const {return derivative.size();}
 public:
-  explicit Function(const class CommandOption &co) : SetupCommand(co) {}
-  virtual ~Function() override {}
+  explicit Function(const class CommandOption &);
+  ~Function() override;
   //void apply();
   virtual void calculate(const std::vector<double> &) = 0;
   //static void registerKeywords(Keywords&);
@@ -41,7 +53,8 @@ public:
   double getValue() const { return value; }
   // User make sure not out of range
   double getDerivative(const size_t i) const {return derivative[i];}
-  std::vector<double> getDerivative() const {return derivative;}
+  const std::vector<double> &getDerivative() const {return derivative;}
+  void write();
 };
 
 //inline

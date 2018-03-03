@@ -23,13 +23,14 @@ class PotentialEnergy final
 
   void constructMap(const std::string &);
   void constructPar(const std::string &);
+  bool checkInput() const;
 public:
   PotentialEnergy(const class CommandOption &co);
   void postConstruct() override;
   // Potential of a group of atoms
   double getPotential() const noexcept {return energy;}
   // Force vector
-  std::vector<double> getForce() const noexcept {return force;}
+  const std::vector<double> &getForce() const noexcept {return force;}
   void calculate(std::shared_ptr<const AtomVector>);
 
   static constexpr const char *directive = "POTENTIAL_ENERGY";

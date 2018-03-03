@@ -5,6 +5,11 @@
 #include "System.h"
 #include "NewtonianDynamics.h"
 
+
+#ifdef DEBUG
+#include "print_vector.h"
+#endif // DEBUG
+
 REGISTER_COMMAND(NewtonianDynamics)
 
 // assume one d?
@@ -16,9 +21,13 @@ void NewtonianDynamics::setAcceleration(std::shared_ptr<AtomVector> av) const
   ff->calculate(av);
   ff->apply(av);
 
-  auto massVector = av->getConstMassVector();
-  auto forceVector = av->getConstForceVector();
-  auto accelerationVector = av->getAccelerationVector();
+  const auto massVector = av->getConstMassVector();
+  const auto forceVector = av->getConstForceVector();
+  auto &accelerationVector = av->getAccelerationVector();
+
+#ifdef DEBUG
+  //printVector(forceVector) << '\t' << "force" << std::endl;
+#endif // DEBUG
 
   auto pe = massVector.cend();
 

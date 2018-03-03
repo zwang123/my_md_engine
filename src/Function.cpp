@@ -1,5 +1,9 @@
+#include <cassert>
 #include <stdexcept>
+#include "Engine.h"
 #include "Function.h"
+#include "Integrator.h"
+#include "TimeStep.h"
 
 //void Function::addValueWithDerivatives() {
 //  plumed_massert( getNumberOfArguments()!=0, "for functions you must requestArguments before adding values");
@@ -59,7 +63,57 @@
 //  if(at_least_one_forced>0) for(unsigned i=0; i<noa; ++i) getPntrToArgument(i)->addForce(f[i]);
 //}
 
+Function::Function(const class CommandOption &co) 
+  : SetupCommand(co)
+  //, fname(parseString("FILE"))
+  , ofs(parseString("FILE"))
+  //, ofs(fname)
+  //, os(fname.empty()?engine->getOstream():ofs)
+{
+  auto rtn = parseOptional<TimeStep::StepType> ("EVERY");
+  nevery = rtn.second ? 1 : rtn.first;
+
+  rtn = parseOptional<TimeStep::StepType> ("FLUSH");
+  flush_every = rtn.second ? 10000 : rtn.first;
+  
+  assert(flush_every % nevery == 0);
+  //assert(fname.empty() || ofs.is_open());
+  ofs << "# Time    " 
+      << label + ".value    " << label + ".derivatives" 
+      << std::endl;
+}
+
+Function::~Function()
+{
+  if (ofs.is_open())
+    ofs.close();
+}
+
 void Function::error(const std::string &errMsg)
 {
   throw std::runtime_error(errMsg);
+}
+
+// User make sure the values are updated
+void Function::write()
+{
+  //std::cout << __LINE__ << std::endl;
+  if (!ofs.is_open()) return;
+  const auto ts = engine->getIntegrator()->getTimeStep();
+  //std::cout << __LINE__ << std::endl;
+
+  if (ts.getStep() % nevery) return;
+  //std::cout << __LINE__ << std::endl;
+
+  static constexpr const char *delim = "  ";
+
+  //using ConstValueIterator = AtomVector::ConstValueIterator;
+  ofs << ts.getTime() << delim << getValue();
+  auto n = getNumberOfArguments();
+  for (decltype(n) i = 0; i != n; ++i) {
+    ofs << delim << getDerivative(i);
+  }
+  ofs << std::endl;
+
+  if (ts.getStep() % flush_every == 0) ofs.flush();
 }
