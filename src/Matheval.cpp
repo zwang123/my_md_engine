@@ -27,7 +27,7 @@ REGISTER_COMMAND(Matheval)
 #include "Engine.h"
 #endif // DEBUG
 
-Matheval::Matheval(const CommandOption &co):
+Matheval::Matheval(const class CommandOption &co):
   Function(co),
   var(parseVector<string>("VAR")),
   func(parseCompulsoryString("FUNC")),
