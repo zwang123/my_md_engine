@@ -14,12 +14,30 @@
   &end
 
   &begin velocity_verlet
-  timestep .5e-1
+  timestep .5e-2
   &end
+    &BeGIN MaTHEvAL
+    FUnC x-y
+    VaR x y    
+    label diff1
+  &EnD       
 
     &BeGIN MaTHEvAL
-    FUnC abs(x-y) -1
+    FUnC y-x
     VaR x y    
+    label diff2
+  &EnD       
+
+    &BeGIN MaTHEvAL
+#FUnC max(x,y)-1
+    FUnC log(exp(x)+exp(y))-1
+    VaR x y    
+    label max_m_1
+  &EnD       
+
+    &BeGIN composite
+    FUnC max_m_1
+    VaR diff1 diff2    
     label dist
     file colvar
   &EnD       
@@ -42,7 +60,8 @@ par_file par.inp
 
 
   &begin run
-step 32000000
+#step 32000000
+step 12000 
 #step 12000 #0000
 #step 120
   &end
