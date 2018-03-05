@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-class CompositeFunction
+class CompositeFunction final
 : public Function {
   std::vector<std::shared_ptr<Function>> var;
   std::shared_ptr<Function> func;

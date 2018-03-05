@@ -46,7 +46,8 @@ public:
   void run(size_t = 1);
 
   std::shared_ptr<class System> getSystem() const noexcept {return sys;}
-  std::shared_ptr<class Integrator> getIntegrator() const noexcept {return integrator;}
+  std::shared_ptr<class Integrator> getIntegrator() const noexcept 
+  {return integrator;}
   std::shared_ptr<class Dynamics> getDynamics() const noexcept {return dyn;}
   std::ostream &getOstream() noexcept {return os;}
 
@@ -95,7 +96,8 @@ public:
   { return std::dynamic_pointer_cast<T>(selectFromLabel(label)); }
 
   template <typename T>
-  std::vector<std::shared_ptr<T>> selectFromLabelVector(const std::vector<std::string> &labels) const noexcept
+  std::vector<std::shared_ptr<T>>
+  selectFromLabelVector(const std::vector<std::string> &labels) const noexcept
   { 
     std::vector<std::shared_ptr<T>> result;
     for (const auto &s : labels)

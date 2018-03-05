@@ -8,7 +8,7 @@
 #include <utility>
 #include "Engine.h"
 
-struct Tools
+struct Tools final
 {
   static void toupper(char *s, size_t n)
   {

@@ -71,7 +71,7 @@ public:
 
 // If fail to compile, move this line in between 
 //   REGISTER_COMMAND and static struct
-// and decomment
+// and decomment and append backslash
   //constexpr const char *classname::directive; 
   //
 #define REGISTER_COMMAND(classname) \

@@ -34,7 +34,8 @@ protected:
   // User make sure length consistency
   void setDerivative(const std::vector<double> &d) {derivative = d;}
   // User make sure length consistency
-  void setDerivative(std::vector<double> &&d) noexcept {derivative = std::move(d);}
+  void setDerivative(std::vector<double> &&d) noexcept 
+  {derivative = std::move(d);}
 //  void setDerivative(Value*,int,double);
 //  void addValueWithDerivatives();
 //  void addComponentWithDerivatives( const std::string& name );
