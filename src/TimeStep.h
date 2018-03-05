@@ -4,7 +4,7 @@
 #include <cassert>
 #include <cstddef>
 
-class TimeStep {
+class TimeStep final {
 public:
   using StepType = ptrdiff_t;
 
@@ -48,9 +48,11 @@ public:
   {TimeStep result (*this); --*this; return result;}
 
   bool operator <(const TimeStep &rhs) const noexcept
-  {assert(getInterval() == rhs.getInterval()); return (getStep() < rhs.getStep());}
+  {assert(getInterval() == rhs.getInterval()); 
+    return (getStep() < rhs.getStep());}
   bool operator ==(const TimeStep &rhs) const noexcept
-  {assert(getInterval() == rhs.getInterval()); return (getStep() == rhs.getStep());}
+  {assert(getInterval() == rhs.getInterval()); 
+    return (getStep() == rhs.getStep());}
   bool operator >(const TimeStep &rhs) const noexcept
   {return rhs < *this;}
   bool operator >=(const TimeStep &rhs) const noexcept

@@ -6,7 +6,8 @@
 #include "TimeStep.h"
 
 //void Function::addValueWithDerivatives() {
-//  plumed_massert( getNumberOfArguments()!=0, "for functions you must requestArguments before adding values");
+//  plumed_massert( getNumberOfArguments()!=0, 
+//       "for functions you must requestArguments before adding values");
 //  ActionWithValue::addValueWithDerivatives();
 //  getPntrToValue()->resizeDerivatives(getNumberOfArguments());
 //
@@ -22,7 +23,8 @@
 //}
 //
 //void Function::addComponentWithDerivatives( const std::string& name ) {
-//  plumed_massert( getNumberOfArguments()!=0, "for functions you must requestArguments before adding values");
+//  plumed_massert( getNumberOfArguments()!=0, 
+//        "for functions you must requestArguments before adding values");
 //  ActionWithValue::addComponentWithDerivatives(name);
 //  getPntrToComponent(name)->resizeDerivatives(getNumberOfArguments());
 //}
@@ -60,7 +62,8 @@
 //
 //  if(noa>0&&ncp>4*cgs) { comm.Sum(&f[0],noa); comm.Sum(at_least_one_forced); }
 //
-//  if(at_least_one_forced>0) for(unsigned i=0; i<noa; ++i) getPntrToArgument(i)->addForce(f[i]);
+//  if(at_least_one_forced>0) for(unsigned i=0; i<noa; ++i) 
+//      getPntrToArgument(i)->addForce(f[i]);
 //}
 
 Function::Function(const class CommandOption &co) 

@@ -30,7 +30,8 @@ public:
 
   template <typename T> std::pair<T, int> parseOptional(const char *);
   template <typename T> T parse(const char *);
-  template <typename T> std::pair<std::vector<T>, int> parseOptionalVector(const char *);
+  template <typename T> std::pair<std::vector<T>, int>
+    parseOptionalVector(const char *);
   template <typename T> std::vector<T> parseVector(const char *);
 
   // lines must be already trimmed

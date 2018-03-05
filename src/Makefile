@@ -4,8 +4,8 @@ SHFLAGS :=  -fPIC
 DEPENDS = $(SRC:.cpp=.d)
 
 CC  := icpc -O3 -qopenmp -qoverride-limits -g -Wall -std=c++11 -Wextra \
-	  -pedantic -xHOST -no-inline-max-size -no-inline-max-total-size \
-		-DNDEBUG -DTHERMO #-DDEBUG
+       -pedantic -xHOST -no-inline-max-size -no-inline-max-total-size \
+       -DNDEBUG -DTHERMO #-DDEBUG
 #CC  := g++ -O0 -g -Wall -std=c++11 -Wextra -pedantic -DDEBUG
 LINK = $(CC)
 DEPFLAGS := -M
@@ -25,9 +25,9 @@ $(OUT) : $(OBJ)
 
 %.d : %.cpp
 	@set -e; /bin/rm -f $@; \
-         $(CC) $(DEPFLAGS) $(INC) $< > $@.$$$$; \
-         sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-         rm -f $@.$$$$
+	 $(CC) $(DEPFLAGS) $(INC) $< > $@.$$$$; \
+	 sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	 rm -f $@.$$$$
 
 clean :
 	@/bin/rm -f $(OUT)

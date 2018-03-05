@@ -8,7 +8,7 @@ class Engine;
 
 // The class that de-codes the command-line options
 // and run the engine
-class MD {
+class MD final {
   std::ifstream ifs;
   std::ofstream ofs;
   std::shared_ptr<Engine> engine;

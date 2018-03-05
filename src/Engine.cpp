@@ -40,7 +40,8 @@ std::istream &Engine::read(std::istream &is)
       if (Tools::toupper_cpy(line) == "&END") {
 #ifdef DEBUG
         //std::cout << __LINE__ << std::endl;
-        //std::copy(cmdLines.cbegin(), cmdLines.cend(), std::ostream_iterator<std::string>(std::cout, "\n"));
+        //std::copy(cmdLines.cbegin(), cmdLines.cend(), 
+        //  std::ostream_iterator<std::string>(std::cout, "\n"));
         //std::cout << std::endl;
 #endif // DEBUG
         auto curr_cmd = CommandGenerator::create(cmdName, 
@@ -116,7 +117,8 @@ void Engine::run(size_t n)
   //TODO
 }
 
-std::shared_ptr<Command> Engine::selectFromLabel(const std::string &label) const noexcept
+std::shared_ptr<Command> Engine::selectFromLabel(const std::string &label) 
+  const noexcept
 { 
   for (const auto &x : cmd)
     if (x->getLabel() == label)

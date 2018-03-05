@@ -47,7 +47,8 @@ public:
   const ValueVector &getConstMassVector() const {return massVector;}
   const ValueVector &getConstPositionVector() const {return positionVector;}
   const ValueVector &getConstVelocityVector() const {return velocityVector;}
-  const ValueVector &getConstAccelerationVector() const {return accelerationVector;}
+  const ValueVector &getConstAccelerationVector() const
+  {return accelerationVector;}
   const TypeVector  &getConstTypeVector() const {return typeVector;}
   const ValueVector &getConstForceVector() const {return forceVector;}
 
@@ -61,7 +62,8 @@ public:
     massVector.size() == dim * typeVector.size();
   }
 
-  std::pair<std::vector<size_type>, ValueVector> slicePositionVector(const std::vector<size_type> &) const;
+  std::pair<std::vector<size_type>, ValueVector> 
+    slicePositionVector(const std::vector<size_type> &) const;
 
   void clearForce() {forceVector.assign(forceVector.size(), 0.0);}
 

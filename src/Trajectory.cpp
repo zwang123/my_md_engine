@@ -63,7 +63,8 @@ void Trajectory::write() const
   os << ke << delim << pe << delim << ke + pe << std::endl;
 
 #ifdef THERMO
-  os2 << ts.getTime() << delim << ke << delim << pe << delim << ke + pe << std::endl;
+  os2 << ts.getTime() << delim << ke << delim << pe 
+      << delim << ke + pe << std::endl;
 #endif
 
   auto ptype = av->getConstTypeVector().cbegin();
