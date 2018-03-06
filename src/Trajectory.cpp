@@ -13,6 +13,8 @@ REGISTER_COMMAND(Trajectory)
 Trajectory::Trajectory (const class CommandOption &co)
   : SetupCommand(co)
   , fname(parseString("FILE"))
+  , nevery(parseOptional<TimeStep::StepType> ("EVERY", 1))
+  , flush_every(parseOptional<TimeStep::StepType> ("FLUSH", 10000))
   , ofs(fname)
   , os(fname.empty()?engine->getOstream():ofs)
   , av(engine->getSystem()->getAtomVector())
@@ -21,11 +23,6 @@ Trajectory::Trajectory (const class CommandOption &co)
   , os2(ofs2)
 #endif
 {
-  auto rtn = parseOptional<TimeStep::StepType> ("EVERY");
-  nevery = rtn.second ? 1 : rtn.first;
-  rtn = parseOptional<TimeStep::StepType> ("FLUSH");
-  flush_every = rtn.second ? 10000 : rtn.first;
-
   assert(flush_every % nevery == 0);
   assert(fname.empty() || ofs.is_open());
 

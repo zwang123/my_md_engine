@@ -79,6 +79,9 @@ struct Tools final
 
   // Only compatible with "C" locale
   const static std::string whiteSpace;
+
+private:
+  Tools() = delete;
 };
 
 #endif // TOOLS_H_INCLUDED

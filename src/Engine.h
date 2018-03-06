@@ -11,8 +11,7 @@ class Command;
 
 // The class that stores all infos required by simulations
 class Engine final
-: public std::enable_shared_from_this<Engine>
-{
+: public std::enable_shared_from_this<Engine> {
   friend class Command;
   std::vector<std::shared_ptr<Command>> cmd;
 

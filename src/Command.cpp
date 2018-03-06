@@ -50,25 +50,6 @@ std::string Command::parseCompulsoryString(const char *key)
     throw std::invalid_argument("Keyword " + std::string(key) + " not found!");
   return result;
 }
-//#ifdef DEBUG
-//#include <iostream>
-//#endif // DEBUG
-//std::vector<std::string> Command::parseStringVector(const char *key)
-//{
-//  std::istringstream iss(findKey(key));
-//  std::vector<std::string> result;
-//  while (iss && !iss.eof()) {
-//    std::string item;
-//    iss >> item;
-//#ifdef DEBUG
-//    //std::cout << item << std::endl;
-//    //std::cout << iss.str().size() << std::endl;
-//    //std::cout << iss.eof() << std::endl;
-//#endif // DEBUG
-//    result.push_back(item);
-//  }
-//  return result;
-//}
 
 double Command::parseValue(const char *key)
 {
