@@ -1,31 +1,11 @@
 #ifndef ATOM_H_INCLUDED
 #define ATOM_H_INCLUDED
 
-//#include <cstddef>
-//
-//class Atom
-//{
-//  const double mass = 1.0;
-//  double position;
-//  double velocity = 0.0;
-//  double acceleration = 0.0;
-//
-//  size_t type = 0;
-//
-//  static constexpr const int box = 10;
-//public:
-//  size_t getType() const {return type;}
-//  double getPosition() const {return position;}
-//
-//  Atom();
-//  void update(double);
-//};
-
 #include "AtomVector.h"
-//#include <cassert>
 
-class Atom final
-{
+// This is dependent upon the underlying AtomVector
+// If the AtomVector is destructed, the Atom object becomes invalid
+class Atom final {
 public:
   using Value              = AtomVector::Value;
   using ValueVector        = AtomVector::ValueVector;
@@ -68,7 +48,6 @@ public:
     : type(type), mass(mass), position(position), velocity(velocity)
     , acceleration(acceleration), force(force)
   {}
-  //void update(double);
 };
 
 #endif // ATOM_H_INCLUDED

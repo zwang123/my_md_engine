@@ -1,4 +1,3 @@
-
 #include <execinfo.h>
 #include <signal.h>
 #include <string.h>
@@ -96,6 +95,3 @@ void my_terminate() {
 
     abort();
 }
-
-
-

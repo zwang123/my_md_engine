@@ -4,8 +4,8 @@
 #include "SetupCommand.h"
 #include <memory>
 
-class Dynamics :
-public SetupCommand {
+class Dynamics
+: public SetupCommand {
 public:
   Dynamics(const class CommandOption &);
   virtual void setAcceleration(std::shared_ptr<class AtomVector>) const = 0;

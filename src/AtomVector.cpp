@@ -2,9 +2,6 @@
 #include "Atom.h"
 #include "AtomVector.h"
 
-#ifdef DEBUG
-#endif // DEBUG
-
 std::shared_ptr<Atom>
 AtomVector::addAtom(const Type type,
                     const Value mass, 
@@ -31,14 +28,16 @@ AtomVector::addAtom(const Type type,
 }
 
 #ifdef DEBUG
-#include <cstdlib>
+#include "RandomNumberGenerator.h"
+#include "TimeSeed.h"
 std::shared_ptr<Atom>
 AtomVector::addAtom()
 {
-  auto box = Atom::box;
+  constexpr auto box = Atom::box;
+  static RandomNumberGenerator<> rng(TimeSeed::gen_seed(), 0.0, box);
   ValueArray pos;
   for (size_type i = 0; i != dim; ++i)
-    pos[i] = rand() % box;
+    pos[i] = rng();
   return addAtom(0, 1.0, pos);
 }
 #endif // DEBUG
@@ -58,7 +57,6 @@ auto AtomVector::slicePositionVector(const std::vector<size_type> &slice) const
   }
   return {indicies, result};
 }
-
 
 std::shared_ptr<Atom> AtomVector::operator[] (size_type i)
 {

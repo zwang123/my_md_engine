@@ -5,8 +5,7 @@
 #include <memory>
 #include <vector>
 
-class AtomVector final
-{
+class AtomVector final {
 public:
   using Value              = double;
   using ValueVector        = std::vector<Value>;

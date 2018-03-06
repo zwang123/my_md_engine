@@ -12,8 +12,8 @@
 class Trajectory final
 : public SetupCommand {
   const std::string fname;
-  TimeStep::StepType nevery;
-  TimeStep::StepType flush_every;
+  const TimeStep::StepType nevery;
+  const TimeStep::StepType flush_every;
 
 
   std::ofstream ofs;

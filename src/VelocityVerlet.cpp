@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Function.h"
 #include "Trajectory.h"
+#include "VelocityInitializer.h"
 #include "VelocityVerlet.h"
 
 #ifdef DEBUG
@@ -64,6 +65,12 @@ void VelocityVerley::integrate()
 void VelocityVerley::setup()
 {
   Command::setup();
+
+  for (const auto &x : engine->select<VelocityInitializer>()) {
+    x->setVelocity(av);
+  }
+
+
   if(engine->getDynamics()) {
     engine->getDynamics()->setAcceleration(av);
   }

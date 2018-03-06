@@ -7,8 +7,7 @@
 
 //namespace command {
 
-class Command
-{
+class Command {
 protected:
   std::shared_ptr<class Engine> engine;
   std::vector<std::string> lines;
@@ -26,13 +25,18 @@ public:
   std::string parseCompulsoryString(const char *);
   // Specification?
   double parseValue(const char *);
-  //std::vector<std::string> parseStringVector(const char *);
 
+  // Default is value-initialized, (i.e. uninitialized for built-in types)
   template <typename T> std::pair<T, int> parseOptional(const char *);
+  template <typename T> T parseOptional(const char *, const T &);
   template <typename T> T parse(const char *);
+  // Default is empty vector
   template <typename T> std::pair<std::vector<T>, int>
     parseOptionalVector(const char *);
-  template <typename T> std::vector<T> parseVector(const char *);
+  template <typename T> std::vector<T>
+    parseOptionalVector(const char *, const std::vector<T> &);
+  template <typename T> std::vector<T>
+    parseVector(const char *);
 
   // lines must be already trimmed
   explicit Command(const class CommandOption &);
@@ -72,6 +76,13 @@ std::pair<T, int> Command::parseOptional(const char *key)
   }
   throw std::logic_error("CODING ERROR");
   return {result, 3};
+}
+
+template <typename T>
+T Command::parseOptional(const char *key, const T &def)
+{
+  auto result = parseOptional<T>(key);
+  return result.second ? def : result.first;
 }
 
 template <typename T>
@@ -118,6 +129,14 @@ Command::parseOptionalVector(const char *key)
   }
   throw std::logic_error("CODING ERROR");
   return {result, 3};
+}
+
+template <typename T>
+std::vector<T>
+Command::parseOptionalVector(const char *key, const std::vector<T> &def)
+{
+  auto result = parseOptionalVector<T>(key);
+  return result.second ? def : result.first;
 }
 
 template <typename T>
