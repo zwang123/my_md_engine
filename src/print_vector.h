@@ -7,11 +7,11 @@
 #include <vector>
 
 template <class T>
-std::ostream &printVector(const std::vector<T> &v, 
+std::ostream &printVector(const T &v, 
     std::ostream &os = std::cout, const char *delim = "\t")
 {
-  std::ostream_iterator<T> oi(os, delim);
-  std::copy(v.cbegin(), v.cend(), oi);
+  std::ostream_iterator<typename T::value_type> oi(os, delim);
+  std::copy(std::begin(v), std::end(v), oi);
   return os;
 }
 
