@@ -1,6 +1,8 @@
+#include <cassert>
 #include <memory>
 #include "Atom.h"
 #include "AtomVector.h"
+#include "Tools.h"
 
 std::shared_ptr<Atom>
 AtomVector::addAtom(const Type type,
@@ -30,11 +32,17 @@ AtomVector::addAtom(const Type type,
 #ifdef DEBUG
 #include "RandomNumberGenerator.h"
 #include "TimeSeed.h"
+#include <iostream>
 std::shared_ptr<Atom>
 AtomVector::addAtom()
 {
   constexpr auto box = Atom::box;
-  static RandomNumberGenerator<> rng(TimeSeed::gen_seed(), 0.0, box);
+  static struct TempClass { TempClass() 
+    { RandomNumberGenerator<>::seed(TimeSeed::gen_seed()); 
+      std::cout << "seed: " << std::endl;
+    }} tempClass;
+  static RandomNumberGenerator<> rng(0.0, box);
+
   ValueArray pos;
   for (size_type i = 0; i != dim; ++i)
     pos[i] = rng();
@@ -73,10 +81,81 @@ std::shared_ptr<Atom> AtomVector::operator[] (size_type i)
 AtomVector::Value AtomVector::kinetic() const
 {
   Value ke = 0.0;
-  auto pend = velocityVector.cend();
   for (auto pm = massVector.cbegin(),
-            pv = velocityVector.cbegin();
+            pv = velocityVector.cbegin(),
+            pend = velocityVector.cend();
             pv != pend; ++pv)
     ke += (*pm++) * (*pv) * (*pv);
   return (ke *= 0.5);
+}
+
+AtomVector::ValueArray AtomVector::momentum() const
+{
+  assert(size() % dim == 0);
+
+  ValueArray tot {{0.0}};
+  for (auto pm = massVector.cbegin(),
+            pv = velocityVector.cbegin(),
+            pend = velocityVector.cend();
+            pv != pend;)
+    for (size_type i = 0; i != dim; ++i)
+      tot[i] += (*pm++) * (*pv++);
+  return tot;
+}
+
+AtomVector::ValueValarray AtomVector::angular_momentum() const
+{
+  if (dim <= 1) return {};
+  assert(size() % dim == 0);
+
+  ValueValarray tot;
+  const auto com = center_of_mass();
+  bool is_first = true;
+  auto pr = positionVector.data();
+  for (auto pm = massVector.cbegin(),
+            pv = velocityVector.cbegin(),
+            pend = velocityVector.cend();
+            pv != pend; pm += dim, pr += dim, pv += dim) {
+    ValueValarray r(pr, dim);
+    r -= com;
+    if (is_first) {
+      tot = (*pm) * Tools::cross<dim>(r, pv);
+      is_first = false;
+    } else {
+      tot += (*pm) * Tools::cross<dim>(r, pv);
+    }
+  }
+  return tot;
+}
+
+AtomVector::Value AtomVector::rotational_inertia() const
+{
+  assert(size() % dim == 0);
+  Value tot = 0.0;
+  const auto com = center_of_mass();
+  for (auto pm = massVector.cbegin(),
+            pr = positionVector.cbegin(),
+            pend = positionVector.cend();
+            pr != pend;)
+    for (size_type i = 0; i != dim; ++i, ++pr) {
+      auto r = *pr - com[i];
+      tot += (*pm++) * r * r;
+    }
+  return tot;
+}
+
+// This is calculated three times... can remove this?
+AtomVector::ValueValarray AtomVector::center_of_mass() const
+{
+  assert(size() % dim == 0);
+  ValueValarray com(0.0, dim);
+  Value tot_mass = 0;
+  auto pr = positionVector.data();
+  for (auto pm = massVector.cbegin(),
+            pend = massVector.cend();
+            pm != pend; pr += dim, pm += dim) {
+    com += (*pm) * ValueValarray(pr, dim);
+    tot_mass += (*pm);
+  }
+  return com /= tot_mass;
 }

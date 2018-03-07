@@ -9,7 +9,7 @@ CC_raw := icpc -O3 -qopenmp -qoverride-limits -g -Wall -std=c++11 -Wextra \
 CC1 = $(CC_raw) -DDIMENSIONALITY=1 
 CC2 = $(CC_raw) -DDIMENSIONALITY=2 
 CC3 = $(CC_raw) -DDIMENSIONALITY=3 
-CC = $(CC3)
+CC = $(CC1)
 
 #CC  := g++ -O0 -g -Wall -std=c++11 -Wextra -pedantic -DDEBUG
 LINK = $(CC)

@@ -58,6 +58,10 @@ par_file par.inp
 #flush 34
   &end
 
+#  &begin velocity
+#  temp 1
+##seed 3
+#  &end
 
   &begin run
 #step 32000000

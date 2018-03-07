@@ -3,7 +3,12 @@
 
 #include <array>
 #include <memory>
+#include <valarray>
 #include <vector>
+
+#ifndef DIMENSIONALITY
+#  define DIMENSIONALITY 3
+#endif
 
 class AtomVector final {
 public:
@@ -16,8 +21,9 @@ public:
   using ConstValueIterator = ValueVector::const_iterator;
   using TypeIterator       = TypeVector::iterator;
   using ConstTypeIterator  = TypeVector::const_iterator;
-  static constexpr const size_type dim = 1;
+  static constexpr const size_type dim = DIMENSIONALITY;
   using ValueArray         = std::array<Value, dim>;
+  using ValueValarray      = std::valarray<Value>;
 private:
   // Expand mass Vector to 3N dimensional?
   ValueVector massVector;
@@ -69,6 +75,10 @@ public:
   std::shared_ptr<class Atom> operator[] (size_type);
 
   Value kinetic() const;
+  ValueArray momentum() const;
+  ValueValarray angular_momentum() const;
+  Value rotational_inertia() const;
+  ValueValarray center_of_mass() const;
 };
 
 #endif // ATOM_VECTOR_H_INCLUDED

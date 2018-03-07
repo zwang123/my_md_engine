@@ -1,11 +1,14 @@
 #ifndef TOOLS_H_INCLUDED
 #define TOOLS_H_INCLUDED
 
+#include <array>
 #include <cctype>
 #include <cstddef>
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include <valarray>
+#include <vector>
 #include "Engine.h"
 
 struct Tools final
@@ -79,6 +82,83 @@ struct Tools final
 
   // Only compatible with "C" locale
   const static std::string whiteSpace;
+
+  template <typename T>
+  static typename T::value_type sum(const T &v)
+  {
+    typename T::value_type tot = 0;
+    for (const auto &x : v)
+      tot += x;
+    return tot;
+  }
+
+  // Exterior Algebra, only implement N = 1, 2, 3
+  template <typename T, std::size_t N, std::size_t N2>
+  static std::array<T, N2>
+  cross(const std::array<T, N> &, const std::array<T, N> &);
+
+  template <typename T>
+  static std::array<T, 0>
+  cross(const std::array<T, 1> &, const std::array<T, 1> &)
+  { return {{}}; }
+
+  template <typename T>
+  static std::array<T, 1>
+  cross(const std::array<T, 2> &lhs, const std::array<T, 2> &rhs)
+  { return {{lhs[0] * rhs[1] - lhs[1] * rhs[0]}}; }
+
+  template <typename T>
+  static std::array<T, 3>
+  cross(const std::array<T, 3> &lhs, const std::array<T, 3> &rhs)
+  { return {{ lhs[1] * rhs[2] - lhs[2] * rhs[1],
+              lhs[2] * rhs[0] - lhs[0] * rhs[2],
+              lhs[0] * rhs[1] - lhs[1] * rhs[0]}}; }
+
+  template <std::size_t N, typename T, typename U>
+  static std::valarray<typename U::value_type> cross(const T &lhs, const U &rhs)
+  {
+    switch (N) {
+      case 1:
+        return {};
+      case 2:
+        return {lhs[0] * rhs[1] - lhs[1] * rhs[0]};
+      case 3:
+        return { lhs[1] * rhs[2] - lhs[2] * rhs[1],
+                 lhs[2] * rhs[0] - lhs[0] * rhs[2],
+                 lhs[0] * rhs[1] - lhs[1] * rhs[0]};
+      default:
+        throw std::invalid_argument("Not implemented yet (" + 
+            std::string(__FILE__) + ", " +
+            std::to_string(__LINE__) + ")");
+        return {};
+    }
+    return {};
+  }
+
+  // N2 is the dim of rhs, lhs is the result of cross
+  // therefore lhs's dim is exterior_dim[N2]
+  template <std::size_t N2, typename T, typename U>
+  static std::valarray<typename U::value_type> 
+  cross2(const T &lhs, const U &rhs)
+  {
+    switch (N2) {
+      case 1:
+        return {};
+      case 2:
+        return {-lhs[0] * rhs[1],
+                 lhs[0] * rhs[0]};
+      case 3:
+        return cross<3>(lhs, rhs);
+      default:
+        throw std::invalid_argument("Not implemented yet (" + 
+            std::string(__FILE__) + ", " +
+            std::to_string(__LINE__) + ")");
+        return {};
+    }
+    return {};
+  }
+
+  constexpr const static std::array<std::size_t, 4> exterior_dim {{0, 0, 1, 3}};
 
 private:
   Tools() = delete;

@@ -8,7 +8,8 @@
 class Atom final {
 public:
   using Value              = AtomVector::Value;
-  using ValueVector        = AtomVector::ValueVector;
+  //using ValueVector        = AtomVector::ValueVector;
+  using ValueArray         = AtomVector::ValueArray;
   using Type               = AtomVector::Type;
   using size_type          = AtomVector::size_type;
   using TypeVector         = AtomVector::TypeVector;
@@ -33,14 +34,26 @@ public:
 
   Type getType() const {return *type;}
   Value getMass() const {return *mass;}
-  ValueVector getPosition() const 
-  {return ValueVector(position, position + dim);}
-  ValueVector getVelocity() const 
-  {return ValueVector(velocity, velocity + dim);}
-  ValueVector getAcceleration() const 
-  {return ValueVector(acceleration, acceleration + dim);}
-  ValueVector getForce() const 
-  {return ValueVector(force, force + dim);}
+  ValueArray getPosition() const 
+  {ValueArray rtn; 
+    for (size_type i = 0; i != dim; ++i) rtn[i] = position[i]; return rtn;}
+  ValueArray getVelocity() const 
+  {ValueArray rtn; 
+    for (size_type i = 0; i != dim; ++i) rtn[i] = velocity[i]; return rtn;}
+  ValueArray getAcceleration() const 
+  {ValueArray rtn; 
+    for (size_type i = 0; i != dim; ++i) rtn[i] = acceleration[i]; return rtn;}
+  ValueArray getForce() const 
+  {ValueArray rtn; 
+    for (size_type i = 0; i != dim; ++i) rtn[i] = force[i]; return rtn;}
+  //ValueVector getPosition() const 
+  //{return ValueVector(position, position + dim);}
+  //ValueVector getVelocity() const 
+  //{return ValueVector(velocity, velocity + dim);}
+  //ValueVector getAcceleration() const 
+  //{return ValueVector(acceleration, acceleration + dim);}
+  //ValueVector getForce() const 
+  //{return ValueVector(force, force + dim);}
 
   Atom (ConstTypeIterator type, ConstValueIterator mass, 
         ValueIterator position, ValueIterator velocity, 

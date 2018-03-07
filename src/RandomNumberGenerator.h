@@ -23,10 +23,8 @@ public:
 
   // Constructor
   template <typename ...Args>
-  explicit RandomNumberGenerator(
-      seed_type seed = _Generator::default_seed,
-      Args&&... args)
-    : gen(seed), dis(std::forward<Args>(args)...)
+  explicit RandomNumberGenerator(Args&&... args)
+    : dis(std::forward<Args>(args)...)
   {}
 
   // Random number generator
@@ -46,11 +44,14 @@ public:
 
   // set seed
   template <typename ...Args>
-  void seed (Args&&... args) {gen.seed(std::forward<Args>(args)...);}
+  static void seed (Args&&... args) {gen.seed(std::forward<Args>(args)...);}
 
 private:
-  _Generator gen;
+  static _Generator gen;
   _Distribution dis;
 };
+
+template <typename _Distribution, typename _Generator>
+_Generator RandomNumberGenerator<_Distribution, _Generator>::gen;
 
 #endif // RANDOM_NUMBER_GENERATOR_H_INCLUDED
