@@ -76,16 +76,17 @@ void VelocityInitializer::setVelocity(std::shared_ptr<AtomVector> av)
   if (is_zero_angular) {
 #ifdef DEBUG
     std::cout << "Zero Angular" << std::endl;
-    printVector(av->angular_momentum()) << std::endl;
-                                           //mass  box  size
-    std::cout << "Rot inertia (should be " << 0.5 * 3.0 * 3.0 / 12 * av->size() 
-      << ") " << av->rotational_inertia()
-      << std::endl;
+    //printVector(av->angular_momentum()) << std::endl;
+  //                                       //mass  box  size
+  //std::cout << "Rot inertia (should be " << 0.5 * 3.0 * 3.0 / 12 * av->size() 
+  //  << ") " << av->rotational_inertia()
+  //  << std::endl;
 #endif // DEBUG
-    ValueValarray angular_velocity (av->angular_momentum());
-    angular_velocity /= av->rotational_inertia();
+    ValueValarray angular_velocity (av->angular_velocity());
 #ifdef DEBUG
-    printVector(angular_velocity) << std::endl;
+    //printVector(angular_velocity) << std::endl;
+    //  std::cout << "vel ";
+    //  printVector(vel) << std::endl;
 #endif // DEBUG
     auto pr = av->getConstPositionVector().data();
     auto com = av->center_of_mass();
@@ -96,14 +97,20 @@ void VelocityInitializer::setVelocity(std::shared_ptr<AtomVector> av)
     for (auto pvel = vel.begin(); pvel != pe; pr += dim) {
       ValueValarray r(pr, dim);
       r -= com;
+      auto vel_adjust = Tools::cross2<dim>(angular_velocity, r);
 #ifdef DEBUG
       tot_r += r * av->getConstMassVector()[pvel - vel.begin()];
+      //std::cout << "r ";
+      //printVector(r) << std::endl;
+      //std::cout << "vel_adjust ";
+      //printVector(vel_adjust) << std::endl;
 #endif // DEBUG
-      auto vel_adjust = Tools::cross2<dim>(angular_velocity, r);
       for (size_type i = 0; i != dim; ++i)
         (*pvel++) -= vel_adjust[i];
     }
 #ifdef DEBUG
+    //std::cout << "vel ";
+    //printVector(vel) << std::endl;
     printVector(tot_r) << std::endl;
 #endif // DEBUG
   }
