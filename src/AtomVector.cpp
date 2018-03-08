@@ -1,8 +1,12 @@
 #include <cassert>
 #include <memory>
+#include <stdexcept>
 #include "Atom.h"
 #include "AtomVector.h"
 #include "Tools.h"
+#ifdef DEBUG
+#include "print_vector.h"
+#endif // DEBUG
 
 std::shared_ptr<Atom>
 AtomVector::addAtom(const Type type,
@@ -128,7 +132,8 @@ AtomVector::ValueValarray AtomVector::angular_momentum() const
   return tot;
 }
 
-AtomVector::Value AtomVector::rotational_inertia() const
+#if (DIMENSIONALITY == 2)
+AtomVector::ValueValarray AtomVector::rotational_inertia() const
 {
   assert(size() % dim == 0);
   Value tot = 0.0;
@@ -141,8 +146,64 @@ AtomVector::Value AtomVector::rotational_inertia() const
       auto r = *pr - com[i];
       tot += (*pm++) * r * r;
     }
+  return {tot};
+}
+#elif (DIMENSIONALITY == 3)
+AtomVector::ValueValarray AtomVector::rotational_inertia() const
+{
+#ifdef DEBUG
+  //std::cout << "Enter function: " << __func__ << "\n";
+#endif // DEBUG
+  assert(size() % dim == 0);
+  constexpr static const auto nmatrix = dim * dim;
+  ValueValarray tot (0.0, nmatrix);
+
+  const auto com = center_of_mass();
+
+  auto pr = positionVector.data();
+  for (auto pm = massVector.cbegin(),
+            pend = massVector.cend();
+            pm != pend; pm += dim, pr += dim) {
+    ValueValarray r(pr, dim); r -= com;
+    auto norm2 = (r*r).sum();
+    auto mass = (*pm);
+#ifdef DEBUG
+    //std::cout << "pos, mass, norm2\n";
+    //printVector(r) << std::endl;
+    //std::cout << mass << " " << norm2 << std::endl;
+    //std::cout << "end\n";
+#endif // DEBUG
+
+    ValueValarray one_inertia (0.0, nmatrix);
+    for (size_type i = 0; i < nmatrix; i += dim + 1) {
+      one_inertia[i] = norm2;
+    }
+    for (size_type i = 0, k = 0; i != dim; ++i) {
+      for (size_type j = 0; j != dim; ++j, ++k) {
+#ifdef DEBUG
+        //std::cout << "i, j, k\n";
+        //std::cout << i << j << k << " " << std::endl;
+        //std::cout << "end\n";
+#endif // DEBUG
+#ifdef DEBUG
+        //std::cout << "one_inertia[k]\n";
+        //std::cout << one_inertia[k] << " " << k << std::endl;
+        //std::cout << "end\n";
+#endif // DEBUG
+        one_inertia[k] -= r[i] * r[j];
+        one_inertia[k] *= mass;
+      }
+    }
+    tot += one_inertia;
+  }
+#ifdef DEBUG
+  //std::cout << "tot\n";
+  //printVector(tot) << std::endl;
+  //std::cout << "end\n";
+#endif // DEBUG
   return tot;
 }
+#endif
 
 // This is calculated three times... can remove this?
 AtomVector::ValueValarray AtomVector::center_of_mass() const
@@ -159,3 +220,90 @@ AtomVector::ValueValarray AtomVector::center_of_mass() const
   }
   return com /= tot_mass;
 }
+
+AtomVector::ValueValarray AtomVector::angular_velocity() const
+{
+#if (DIMENSIONALITY == 2)
+  // both angular_momentum and rotational_inertia are 1-d
+  ValueValarray angular_velocity (angular_momentum());
+  angular_velocity /= rotational_inertia();
+#elif (DIMENSIONALITY == 3)
+  ValueValarray rot_inertia (rotational_inertia());
+  ValueValarray angular_velocity (solveLinear(rotational_inertia(), 
+                                              angular_momentum()));
+#else
+  throw std::invalid_argument("Not implemented yet (" + 
+      std::string(__FILE__) + ", " +
+      std::to_string(__LINE__) + ")");
+#endif
+  return angular_velocity;
+}
+
+#if (DIMENSIONALITY == 3)
+// _a is _m*_n
+// _x is _n*1
+// _b is _m*1
+#include <cstdlib>
+#include <cmath>
+#define TOL 1e-8
+AtomVector::ValueValarray AtomVector::solveLinear(const ValueValarray &_a, 
+                                                  const ValueValarray &_b) const
+{
+  const auto _m = _b.size();
+  assert(_m);
+  assert(_a.size() % _m == 0);
+  const auto _n = _a.size() / _m;
+  assert(_m == _n);
+
+  ValueMatrix _am(_m);
+  for (size_type i = 0, k = 0; i != _m; ++i) {
+    ValueValarray row(_n + 1);
+    for (size_type j = 0; j != _n; ++j, ++k) {
+      row[j] = _a[k];
+    }
+    row[_n] = _b[i];
+    _am[i] = row;
+  }
+#ifdef DEBUG
+  //std::cout << "_am start\n";
+  //for (const auto &row : _am)
+  //  printVector(row) << std::endl;
+  //std::cout << "_am end\n";
+  //ValueValarray doooo = _am[1]-_am[0]*2.0;
+  //printVector(doooo) << std::endl;
+#endif // DEBUG
+
+  for (size_type i = 0; i != _m; ++i) {
+    Value pivot = _am[i][i];
+    assert(std::abs(pivot) > TOL);
+    _am[i] /= pivot;
+    for (size_type j = i + 1; j < _m; ++j) {
+      _am[j] -= _am[i] * static_cast<Value>(_am[j][i]);
+    }
+  }
+#ifdef DEBUG
+//  std::cout << "_am start\n";
+//  for (const auto &row : _am)
+//    printVector(row) << std::endl;
+//  std::cout << "_am end\n";
+#endif // DEBUG
+  for (size_type i = _m - 1; i != 0; --i) {
+    for (size_type j = 0; j != i; ++j) {
+      _am[j] -= _am[i] * static_cast<Value>(_am[j][i]);
+    }
+  }
+
+#ifdef DEBUG
+//  std::cout << "_am start\n";
+//  for (const auto &row : _am)
+//    printVector(row) << std::endl;
+//  std::cout << "_am end\n";
+#endif // DEBUG
+
+  ValueValarray rtn(_m);
+  for (size_type i = 0 ; i != _m; ++i) {
+    rtn[i] = _am[i][_n];
+  }
+  return rtn;
+}
+#endif

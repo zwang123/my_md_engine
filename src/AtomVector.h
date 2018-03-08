@@ -24,6 +24,7 @@ public:
   static constexpr const size_type dim = DIMENSIONALITY;
   using ValueArray         = std::array<Value, dim>;
   using ValueValarray      = std::valarray<Value>;
+  using ValueMatrix        = std::valarray<ValueValarray>;
 private:
   // Expand mass Vector to 3N dimensional?
   ValueVector massVector;
@@ -33,6 +34,11 @@ private:
   TypeVector  typeVector;
 
   ValueVector forceVector;
+#if (DIMENSIONALITY == 3)
+  ValueValarray solveLinear (const ValueValarray &, 
+                             const ValueValarray &) const;
+#endif
+
 public:
 
 #ifdef DEBUG
@@ -77,8 +83,12 @@ public:
   Value kinetic() const;
   ValueArray momentum() const;
   ValueValarray angular_momentum() const;
-  Value rotational_inertia() const;
+  ValueValarray angular_velocity() const;
   ValueValarray center_of_mass() const;
+
+#if (DIMENSIONALITY == 2) || (DIMENSIONALITY == 3)
+  ValueValarray rotational_inertia() const;
+#endif
 };
 
 #endif // ATOM_VECTOR_H_INCLUDED
