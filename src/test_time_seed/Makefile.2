@@ -1,0 +1,43 @@
+SRC_ALL = $(wildcard *.cpp) $(wildcard ../*.cpp)
+SRC = $(filter-out ../main.cpp, $(SRC_ALL))
+                        #../AtomVector.cpp ../Engine.cpp \
+                        #../VelocityInitializer.cpp ../System.cpp \
+                        #../CommandGenerator.cpp
+OBJ = $(SRC:.cpp=.o)
+SHFLAGS :=  -fPIC
+DEPENDS = $(SRC:.cpp=.d)
+
+CC  := icpc -O3 -qopenmp -qoverride-limits -g -Wall -std=c++11 -Wextra \
+       -pedantic -xHOST -no-inline-max-size -no-inline-max-total-size \
+       -DTHERMO -DDEBUG -DDIMENSIONALITY=2
+#CC  := g++ -O0 -g -Wall -std=c++11 -Wextra -pedantic -DDEBUG
+LINK = $(CC)
+DEPFLAGS := -M
+OUT := test_time_seed
+
+INC = -I..
+LIB = -lmatheval
+
+.PHONY : clean
+
+$(OUT) : $(OBJ)
+	$(LINK) $(OBJ) $(LIB) -o $@
+
+%.o : %.cpp
+	@/bin/rm -f $(OUT)
+	$(CC) $(SHFLAGS) $(INC) -c $< -o $@
+
+%.d : %.cpp
+	@set -e; /bin/rm -f $@; \
+	 $(CC) $(DEPFLAGS) $(INC) $< > $@.$$$$; \
+	 sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	 rm -f $@.$$$$
+
+clean :
+	@/bin/rm -f $(OUT)
+	@/bin/rm -f $(OBJ)
+	@/bin/rm -f $(DEPENDS)
+
+ifneq ($(MAKECMDGOALS),clean)
+sinclude $(DEPENDS)
+endif
