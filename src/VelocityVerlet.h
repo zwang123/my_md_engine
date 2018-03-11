@@ -1,5 +1,5 @@
-#ifndef VELOCITY_VERLET_H_INCLUDED
-#define VELOCITY_VERLET_H_INCLUDED
+#ifndef __VELOCITY_VERLET_H_INCLUDED
+#define __VELOCITY_VERLET_H_INCLUDED
 
 #include "Integrator.h"
 
@@ -14,4 +14,4 @@ public:
   void end_of_step ();
 };
 
-#endif // VELOCITY_VERLET_H_INCLUDED
+#endif // __VELOCITY_VERLET_H_INCLUDED

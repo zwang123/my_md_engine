@@ -1,5 +1,5 @@
-#ifndef INTEGRATOR_H_INCLUDED
-#define INTEGRATOR_H_INCLUDED
+#ifndef __INTEGRATOR_H_INCLUDED
+#define __INTEGRATOR_H_INCLUDED
 
 #include "ModifyCommand.h"
 #include "TimeStep.h"
@@ -20,4 +20,4 @@ public:
   TimeStep getTimeStep () const noexcept {return ts;}
 };
 
-#endif // INTEGRATOR_H_INCLUDED
+#endif // __INTEGRATOR_H_INCLUDED

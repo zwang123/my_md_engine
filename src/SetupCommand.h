@@ -1,5 +1,5 @@
-#ifndef SETUP_COMMAND_H_INCLUDED
-#define SETUP_COMMAND_H_INCLUDED
+#ifndef __SETUP_COMMAND_H_INCLUDED
+#define __SETUP_COMMAND_H_INCLUDED
 
 #include "Command.h"
 
@@ -12,4 +12,4 @@ public:
   void run() override {}
 };
 
-#endif // SETUP_COMMAND_H_INCLUDED
+#endif // __SETUP_COMMAND_H_INCLUDED

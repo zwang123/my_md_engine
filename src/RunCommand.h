@@ -1,5 +1,5 @@
-#ifndef RUN_COMMAND_H_INCLUDED
-#define RUN_COMMAND_H_INCLUDED
+#ifndef __RUN_COMMAND_H_INCLUDED
+#define __RUN_COMMAND_H_INCLUDED
 
 #include "Command.h"
 #include "Engine.h"
@@ -14,4 +14,4 @@ public:
   static constexpr const char *directive = "RUN";
 };
 
-#endif // RUN_COMMAND_H_INCLUDED
+#endif // __RUN_COMMAND_H_INCLUDED

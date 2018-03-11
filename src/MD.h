@@ -1,5 +1,5 @@
-#ifndef MD_H_INCLUDED
-#define MD_H_INCLUDED
+#ifndef __MD_H_INCLUDED
+#define __MD_H_INCLUDED
 
 #include <fstream>
 #include <memory>
@@ -20,4 +20,4 @@ public:
   int run();
 };
 
-#endif // MD_H_INCLUDED
+#endif // __MD_H_INCLUDED

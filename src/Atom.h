@@ -1,5 +1,5 @@
-#ifndef ATOM_H_INCLUDED
-#define ATOM_H_INCLUDED
+#ifndef __ATOM_H_INCLUDED
+#define __ATOM_H_INCLUDED
 
 #include "AtomVector.h"
 
@@ -63,5 +63,5 @@ public:
   {}
 };
 
-#endif // ATOM_H_INCLUDED
+#endif // __ATOM_H_INCLUDED
 

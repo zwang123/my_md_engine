@@ -1,5 +1,5 @@
-#ifndef ENGINE_H_INCLUDED
-#define ENGINE_H_INCLUDED
+#ifndef __ENGINE_H_INCLUDED
+#define __ENGINE_H_INCLUDED
 
 #include <fstream>
 #include <iostream>
@@ -105,4 +105,4 @@ public:
   }
 };
 
-#endif // ENGINE_H_INCLUDED
+#endif // __ENGINE_H_INCLUDED

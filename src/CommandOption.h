@@ -1,5 +1,5 @@
-#ifndef COMMAND_OPTION_H_INCLUDED
-#define COMMAND_OPTION_H_INCLUDED
+#ifndef __COMMAND_OPTION_H_INCLUDED
+#define __COMMAND_OPTION_H_INCLUDED
 
 #include <memory>
 #include <string>
@@ -25,4 +25,4 @@ public:
   {}
 };
 
-#endif // COMMAND_OPTION_H_INCLUDED
+#endif // __COMMAND_OPTION_H_INCLUDED

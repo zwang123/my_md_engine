@@ -1,5 +1,5 @@
-#ifndef SYSTEM_H_INCLUDED
-#define SYSTEM_H_INCLUDED
+#ifndef __SYSTEM_H_INCLUDED
+#define __SYSTEM_H_INCLUDED
 
 #include "SetupCommand.h"
 #include <memory>
@@ -20,4 +20,4 @@ public:
   std::shared_ptr<class ForceField> getForceField() const {return ff;}
 };
 
-#endif // SYSTEM_H_INCLUDED
+#endif // __SYSTEM_H_INCLUDED

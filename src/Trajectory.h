@@ -1,5 +1,5 @@
-#ifndef TRAJECTORY_H_INCLUDED
-#define TRAJECTORY_H_INCLUDED
+#ifndef __TRAJECTORY_H_INCLUDED
+#define __TRAJECTORY_H_INCLUDED
 
 #include "TimeStep.h"
 #include "SetupCommand.h"
@@ -32,4 +32,4 @@ public:
   static constexpr const char *directive = "TRAJECTORY";
 };
 
-#endif // TRAJECTORY_H_INCLUDED
+#endif // __TRAJECTORY_H_INCLUDED
