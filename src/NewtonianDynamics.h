@@ -1,5 +1,5 @@
-#ifndef NEWTONIAN_DYNAMICS_H_INCLUDED
-#define NEWTONIAN_DYNAMICS_H_INCLUDED
+#ifndef __NEWTONIAN_DYNAMICS_H_INCLUDED
+#define __NEWTONIAN_DYNAMICS_H_INCLUDED
 
 #include "Dynamics.h"
 
@@ -11,4 +11,4 @@ public:
   static constexpr const char *directive = "NEWTONIAN";
 };
 
-#endif // NEWTONIAN_DYNAMICS_H_INCLUDED
+#endif // __NEWTONIAN_DYNAMICS_H_INCLUDED

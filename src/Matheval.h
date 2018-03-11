@@ -1,5 +1,5 @@
-#ifndef MATHEVAL_H_INCLUDED
-#define MATHEVAL_H_INCLUDED
+#ifndef __MATHEVAL_H_INCLUDED
+#define __MATHEVAL_H_INCLUDED
 
 #include "Function.h"
 #include <string>
@@ -34,4 +34,4 @@ public:
   static constexpr const char *directive = "MATHEVAL";
 };
 
-#endif // MATHEVAL_H_INCLUDED
+#endif // __MATHEVAL_H_INCLUDED

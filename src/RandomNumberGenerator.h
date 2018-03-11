@@ -1,5 +1,5 @@
-#ifndef RANDOM_NUMBER_GENERATOR_H_INCLUDED
-#define RANDOM_NUMBER_GENERATOR_H_INCLUDED
+#ifndef __RANDOM_NUMBER_GENERATOR_H_INCLUDED
+#define __RANDOM_NUMBER_GENERATOR_H_INCLUDED
 
 //#include <limits>
 #include <random>
@@ -54,4 +54,4 @@ private:
 template <typename _Distribution, typename _Generator>
 _Generator RandomNumberGenerator<_Distribution, _Generator>::gen;
 
-#endif // RANDOM_NUMBER_GENERATOR_H_INCLUDED
+#endif // __RANDOM_NUMBER_GENERATOR_H_INCLUDED

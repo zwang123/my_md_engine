@@ -1,5 +1,5 @@
-#ifndef COMMAND_GENERATOR_H_INCLUDED
-#define COMMAND_GENERATOR_H_INCLUDED
+#ifndef __COMMAND_GENERATOR_H_INCLUDED
+#define __COMMAND_GENERATOR_H_INCLUDED
 
 #include <functional>
 #include <map>
@@ -81,4 +81,4 @@ public:
     }\
   } __UNIQUENAME(classname##RegisterMeObject);
 
-#endif // COMMAND_GENERATOR_H_INCLUDED
+#endif // __COMMAND_GENERATOR_H_INCLUDED

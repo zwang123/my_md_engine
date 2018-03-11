@@ -1,5 +1,5 @@
-#ifndef TIME_SEED_H_INCLUDED
-#define TIME_SEED_H_INCLUDED
+#ifndef __TIME_SEED_H_INCLUDED
+#define __TIME_SEED_H_INCLUDED
 
 #include <chrono>
 
@@ -16,4 +16,4 @@ public:
   {return static_cast<T>(gen_seed());}
 };
 
-#endif // TIME_SEED_H_INCLUDED
+#endif // __TIME_SEED_H_INCLUDED

@@ -1,5 +1,5 @@
-#ifndef POTENTIAL_ENERGY_H_INCLUDED
-#define POTENTIAL_ENERGY_H_INCLUDED
+#ifndef __POTENTIAL_ENERGY_H_INCLUDED
+#define __POTENTIAL_ENERGY_H_INCLUDED
 
 #include "AtomVector.h"
 #include "SetupCommand.h"
@@ -36,4 +36,4 @@ public:
   static constexpr const char *directive = "POTENTIAL_ENERGY";
 };
 
-#endif // POTENTIAL_ENERGY_H_INCLUDED
+#endif // __POTENTIAL_ENERGY_H_INCLUDED

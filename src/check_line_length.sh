@@ -1,3 +1,4 @@
+#!/bin/bash
 for i in *.cpp; do
     awk '{if (length($0)>80) print FILENAME, NR;}'  "$i"
 done

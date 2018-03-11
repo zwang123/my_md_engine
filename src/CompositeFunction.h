@@ -1,5 +1,5 @@
-#ifndef COMPOSITE_FUNCTION_H_INCLUDED
-#define COMPOSITE_FUNCTION_H_INCLUDED
+#ifndef __COMPOSITE_FUNCTION_H_INCLUDED
+#define __COMPOSITE_FUNCTION_H_INCLUDED
 
 #include "Function.h"
 #include <vector>
@@ -16,4 +16,4 @@ public:
   static constexpr const char *directive = "COMPOSITE";
 };
 
-#endif // COMPOSITE_FUNCTION_H_INCLUDED
+#endif // __COMPOSITE_FUNCTION_H_INCLUDED

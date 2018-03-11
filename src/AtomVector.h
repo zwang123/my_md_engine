@@ -1,5 +1,5 @@
-#ifndef ATOM_VECTOR_H_INCLUDED
-#define ATOM_VECTOR_H_INCLUDED
+#ifndef __ATOM_VECTOR_H_INCLUDED
+#define __ATOM_VECTOR_H_INCLUDED
 
 #include <array>
 #include <memory>
@@ -91,4 +91,4 @@ public:
 #endif
 };
 
-#endif // ATOM_VECTOR_H_INCLUDED
+#endif // __ATOM_VECTOR_H_INCLUDED

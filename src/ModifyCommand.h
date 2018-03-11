@@ -1,5 +1,5 @@
-#ifndef MODIFY_COMMAND_H_INCLUDED
-#define MODIFY_COMMAND_H_INCLUDED
+#ifndef __MODIFY_COMMAND_H_INCLUDED
+#define __MODIFY_COMMAND_H_INCLUDED
 
 #include "Command.h"
 
@@ -10,4 +10,4 @@ public:
   ModifyCommand(const class CommandOption &co) : Command(co) {run_flag = true;}
 };
 
-#endif //  MODIFY_COMMAND_H_INCLUDED
+#endif // __MODIFY_COMMAND_H_INCLUDED

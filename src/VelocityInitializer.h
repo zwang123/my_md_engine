@@ -1,5 +1,5 @@
-#ifndef VELOCITY_INITIALIZER_H_INCLUDED
-#define VELOCITY_INITIALIZER_H_INCLUDED
+#ifndef __VELOCITY_INITIALIZER_H_INCLUDED
+#define __VELOCITY_INITIALIZER_H_INCLUDED
 
 #include "RandomNumberGenerator.h"
 #include "SetupCommand.h"
@@ -30,4 +30,4 @@ public:
   static constexpr const char *directive = "VELOCITY";
 };
 
-#endif // VELOCITY_INITIALIZER_H_INCLUDED
+#endif // __VELOCITY_INITIALIZER_H_INCLUDED

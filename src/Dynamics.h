@@ -1,5 +1,5 @@
-#ifndef DYNAMICS_H_INCLUDED
-#define DYNAMICS_H_INCLUDED
+#ifndef __DYNAMICS_H_INCLUDED
+#define __DYNAMICS_H_INCLUDED
 
 #include "SetupCommand.h"
 #include <memory>
@@ -11,4 +11,4 @@ public:
   virtual void setAcceleration(std::shared_ptr<class AtomVector>) const = 0;
 };
 
-#endif // DYNAMICS_H_INCLUDED
+#endif // __DYNAMICS_H_INCLUDED

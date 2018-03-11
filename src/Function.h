@@ -1,5 +1,5 @@
-#ifndef FUNCTION_H_INCLUDED
-#define FUNCTION_H_INCLUDED
+#ifndef __FUNCTION_H_INCLUDED
+#define __FUNCTION_H_INCLUDED
 
 #include <string>
 #include <utility>
@@ -74,4 +74,4 @@ public:
 
 //}
 
-#endif // FUNCTION_H_INCLUDED
+#endif // __FUNCTION_H_INCLUDED

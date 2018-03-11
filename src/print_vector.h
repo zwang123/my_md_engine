@@ -1,5 +1,5 @@
-#ifndef PRINT_VECTOR_H_INCLUDED
-#define PRINT_VECTOR_H_INCLUDED
+#ifndef __PRINT_VECTOR_H_INCLUDED
+#define __PRINT_VECTOR_H_INCLUDED
 
 #include <algorithm>
 #include <iostream>
@@ -15,4 +15,4 @@ std::ostream &printVector(const T &v,
   return os;
 }
 
-#endif // PRINT_VECTOR_H_INCLUDED
+#endif // __PRINT_VECTOR_H_INCLUDED

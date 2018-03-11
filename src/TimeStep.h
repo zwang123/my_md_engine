@@ -1,5 +1,5 @@
-#ifndef TIME_STEP_H_INCLUDED
-#define TIME_STEP_H_INCLUDED
+#ifndef __TIME_STEP_H_INCLUDED
+#define __TIME_STEP_H_INCLUDED
 
 #include <cassert>
 #include <cstddef>
@@ -63,4 +63,4 @@ public:
   {return !(rhs == *this);}
 };
 
-#endif // TIME_STEP_H_INCLUDED
+#endif // __TIME_STEP_H_INCLUDED

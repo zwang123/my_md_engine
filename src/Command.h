@@ -1,5 +1,5 @@
-#ifndef COMMAND_H_INCLUDED
-#define COMMAND_H_INCLUDED
+#ifndef __COMMAND_H_INCLUDED
+#define __COMMAND_H_INCLUDED
 
 #include <memory>
 #include <string>
@@ -161,4 +161,4 @@ std::vector<T> Command::parseVector(const char *key)
   return result.first;
 }
 
-#endif // COMMAND_H_INCLUDED
+#endif // __COMMAND_H_INCLUDED

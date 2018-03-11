@@ -1,5 +1,5 @@
-#ifndef TOOLS_H_INCLUDED
-#define TOOLS_H_INCLUDED
+#ifndef __TOOLS_H_INCLUDED
+#define __TOOLS_H_INCLUDED
 
 #include <array>
 #include <cctype>
@@ -164,4 +164,4 @@ private:
   Tools() = delete;
 };
 
-#endif // TOOLS_H_INCLUDED
+#endif // __TOOLS_H_INCLUDED

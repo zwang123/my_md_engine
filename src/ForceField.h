@@ -1,5 +1,5 @@
-#ifndef FORCE_FIELD_H_INCLUDED
-#define FORCE_FIELD_H_INCLUDED
+#ifndef __FORCE_FIELD_H_INCLUDED
+#define __FORCE_FIELD_H_INCLUDED
 
 #include <memory>
 #include <vector>
@@ -32,4 +32,4 @@ public:
 
 };
 
-#endif // FORCE_FIELD_H_INCLUDED
+#endif // __FORCE_FIELD_H_INCLUDED
