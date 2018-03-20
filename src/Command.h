@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 
+// WARNING: all parser in the Command class assumes that the lines are trimmed
+// and no empty line
+
 //namespace command {
 
 class Command {

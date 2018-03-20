@@ -43,7 +43,7 @@ struct Tools final
     if (start >= pos)
       return "";
     // this is guaranteed to be found
-    auto endm1 = s.find_last_not_of(whiteSpace, pos);
+    auto endm1 = s.find_last_not_of(whiteSpace, pos - 1);
     return s.substr(start, endm1 - start + 1);
   }
 

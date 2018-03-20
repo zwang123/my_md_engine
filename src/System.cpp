@@ -28,7 +28,10 @@ System::System(const class CommandOption &co)
   static constexpr const auto dim = AtomVector::dim;
 
   while (getline(ifs, line)) {
-    std::istringstream iss(Tools::trim_comment_whitespace(line));
+    std::string str_trimmed(Tools::trim_comment_whitespace(line));
+    if (str_trimmed.empty())
+      continue;
+    std::istringstream iss(str_trimmed);
     Type type; Value mass; ValueArray pos, vel {{0.0}};
     iss >> type >> mass;
 

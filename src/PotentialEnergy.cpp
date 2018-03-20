@@ -127,9 +127,12 @@ void PotentialEnergy::constructPar(const std::string &filename)
 
   while (getline(ifs, line)) {
     line = Tools::trim_comment_whitespace(line);
+    if (line.empty())
+      continue;
     std::istringstream iss(line);
     std::vector<Data> parsedLine;
-    while (!line.empty() && iss && !iss.eof()) {
+    //while (!line.empty() && iss && !iss.eof()) {
+    while (iss && !iss.eof()) {
       double item;
       iss >> item;
       parsedLine.push_back(item);
@@ -152,9 +155,12 @@ void PotentialEnergy::constructMap(const std::string &filename)
 
   while (getline(ifs, line)) {
     line = Tools::trim_comment_whitespace(line);
+    if (line.empty())
+      continue;
     std::istringstream iss(line);
     std::vector<Data> parsedLine;
-    while (!line.empty() && iss && !iss.eof()) {
+    //while (!line.empty() && iss && !iss.eof()) {
+    while (iss && !iss.eof()) {
       double item;
       iss >> item;
       parsedLine.push_back(item);
