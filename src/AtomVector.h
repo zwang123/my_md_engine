@@ -5,6 +5,7 @@
 #include <memory>
 #include <valarray>
 #include <vector>
+#include <map>
 
 #ifndef DIMENSIONALITY
 #  define DIMENSIONALITY 3
@@ -14,7 +15,7 @@ class AtomVector final {
 public:
   using Value              = double;
   using ValueVector        = std::vector<Value>;
-  using size_type          = ValueVector::size_type;
+  using size_type          = ValueVector::size_type; // atom index type
   using Type               = ValueVector::size_type;
   using TypeVector         = std::vector<Type>;
   using ValueIterator      = ValueVector::iterator;
@@ -25,6 +26,8 @@ public:
   using ValueArray         = std::array<Value, dim>;
   using ValueValarray      = std::valarray<Value>;
   using ValueMatrix        = std::valarray<ValueValarray>;
+
+  using TypeMap            = std::map<Type, std::vector<size_type>>;
 private:
   // Expand mass Vector to 3N dimensional?
   ValueVector massVector;
@@ -39,6 +42,7 @@ private:
                              const ValueValarray &) const;
 #endif
 
+  TypeMap     type2index;
 public:
 
 #ifdef DEBUG
@@ -62,6 +66,9 @@ public:
   {return accelerationVector;}
   const TypeVector  &getConstTypeVector() const {return typeVector;}
   const ValueVector &getConstForceVector() const {return forceVector;}
+
+  const std::vector<size_type> &convertType2Index(const Type type) const 
+  {return type2index.find(type)->second;}
 
   size_type size() const { return forceVector.size(); }
   size_type atomNumber() const { return typeVector.size(); }

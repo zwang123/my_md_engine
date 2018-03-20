@@ -21,6 +21,7 @@ class PotentialEnergy final
   double energy = 0.0;
   std::vector<double> force;
 
+  void constructMapFromType(const std::string &);
   void constructMap(const std::string &);
   void constructPar(const std::string &);
   bool checkInput() const;
