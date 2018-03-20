@@ -32,7 +32,6 @@
     FUnC sqrt
     VaR dist2
     label dist
-    file colvar
   &EnD       
 
 
@@ -61,7 +60,7 @@ par_file par.inp
 
   &begin run
 #step 32000000
-step 12000 
+step 120000 #  
 #step 12000 #0000
 #step 120
   &end

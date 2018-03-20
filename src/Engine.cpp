@@ -44,6 +44,7 @@ std::istream &Engine::read(std::istream &is)
         //  std::ostream_iterator<std::string>(std::cout, "\n"));
         //std::cout << std::endl;
 #endif // DEBUG
+        // WARNING All command lines are trimmed and non-empty
         auto curr_cmd = CommandGenerator::create(cmdName, 
               CommandOption(shared_from_this(), std::move(cmdLines)));
         cmdLines.clear();
@@ -75,6 +76,7 @@ std::istream &Engine::read(std::istream &is)
           cmd.pop_back();
         }
       } else {
+        // line is trimmed
         cmdLines.push_back(line);
       }
     } else {
