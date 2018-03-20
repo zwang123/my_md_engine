@@ -1,0 +1,67 @@
+    &BeGIN MaTHEvAL
+    FUnC  4 * ener * ( (s/d)^12 - (s/d)^6 )
+    VaR d ener s
+    label lj
+  &EnD       
+
+  &begin system
+  file atom.inp
+  &end
+
+  &begin newtonian
+#
+#e
+  &end
+
+  &begin velocity_verlet
+  timestep .5e-2
+  &end
+
+    &BeGIN MaTHEvAL
+    FUnC (x1-x2)^2+(y1-y2)^2+(z1-z2)^2
+    VaR x1 y1 z1 x2 y2 z2   
+    label dist2
+  &EnD       
+    &BeGIN MaTHEvAL
+    FUnC sqrt(x)
+    VaR x
+    label sqrt
+  &EnD       
+
+    &BeGIN composite
+    FUnC sqrt
+    VaR dist2
+    label dist
+  &EnD       
+
+
+  &begin potential_energy
+  arg dist
+  func lj
+  map_file map.inp
+  map_from_type_file map_type.inp
+par_file par.inp
+#
+  &end
+
+
+  &begin trajectory
+  file traj
+#every 3
+#flush 34
+  &end
+
+  &begin velocity
+  temp 1
+  scale true
+  zero_linear true
+  zero_angular true
+##seed 3
+  &end
+
+  &begin run
+#step 32000000
+step 120000 #  
+#step 12000 #0000
+#step 120
+  &end

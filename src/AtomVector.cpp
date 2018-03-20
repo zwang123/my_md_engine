@@ -15,6 +15,25 @@ AtomVector::addAtom(const Type type,
                     const ValueArray &vel,
                     const ValueArray &acc)
 {
+  auto iter = type2index.find(type);
+
+  // must be before push_back of typeVector
+  if (iter == type2index.end()) {
+    // not found
+    // create vector
+    type2index[type] = {atomNumber()};
+  } else {
+    // found, vector must be non-empty
+    auto &idxVec = iter->second;
+    // Check mass, floting point equality, dangerous!
+    assert(mass == massVector[idxVec.front() * dim]);
+    // push back
+    idxVec.push_back(atomNumber());
+  }
+
+  // Since there is no delete atom, idxVec is naturally sorted
+
+
   typeVector.push_back(type);
   positionVector.insert(positionVector.end(), pos.cbegin(), pos.cend());
   velocityVector.insert(velocityVector.end(), vel.cbegin(), vel.cend());
