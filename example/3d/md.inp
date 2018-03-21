@@ -55,7 +55,7 @@ par_file par.inp
   temp 1
   scale true
   zero_linear true
-  zero_angular true
+#zero_angular true    2 atom, the inertia matrix is singular
 ##seed 3
   &end
 

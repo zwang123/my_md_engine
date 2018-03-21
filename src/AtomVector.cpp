@@ -247,6 +247,7 @@ AtomVector::ValueValarray AtomVector::angular_velocity() const
   ValueValarray angular_velocity (angular_momentum());
   angular_velocity /= rotational_inertia();
 #elif (DIMENSIONALITY == 3)
+  assert(atomNumber() > 2); // otherwise inertia matrix is singular
   ValueValarray rot_inertia (rotational_inertia());
   ValueValarray angular_velocity (solveLinear(rotational_inertia(), 
                                               angular_momentum()));

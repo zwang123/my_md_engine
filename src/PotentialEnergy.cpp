@@ -208,7 +208,8 @@ void PotentialEnergy::constructMapFromType(const std::string &filename)
           prev_index = 0;
         } else {
           // too little atoms for this atom type
-          assert(++prev_index != indices.size());
+          ++prev_index; // Must not put this in assert
+          assert(prev_index != indices.size());
           tensorIndex.push_back(prev_index);
         }
       }
