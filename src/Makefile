@@ -5,7 +5,7 @@ DEPENDS = $(SRC:.cpp=.d)
 
 CC_raw := icpc -O3 -qopenmp -qoverride-limits -g -Wall -std=c++11 -Wextra \
        -pedantic -xHOST -no-inline-max-size -no-inline-max-total-size \
-       -DTHERMO #-DNDEBUG #-DDEBUG
+       -DTHERMO #-DDEBUG #-DNDEBUG 
 CC1 = $(CC_raw) -DDIMENSIONALITY=1 
 CC2 = $(CC_raw) -DDIMENSIONALITY=2 
 CC3 = $(CC_raw) -DDIMENSIONALITY=3 

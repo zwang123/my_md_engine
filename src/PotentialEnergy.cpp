@@ -226,6 +226,8 @@ void PotentialEnergy::constructMapFromType(const std::string &filename)
 #ifdef DEBUG
         printVector(atom_index_vector) << std::endl;
 #endif // DEBUG
+        assert(potential_map.find(atom_index_vector) == potential_map.end());
+        // overwrite 
         potential_map[std::move(atom_index_vector)] = target;
         //++tensorIndex
         for (decltype(parsedLine.size()) i = tensorDim; i != 0; ) {
@@ -297,6 +299,7 @@ void PotentialEnergy::constructMap(const std::string &filename)
       auto target = std::move(parsedLine.back());
       parsedLine.pop_back();
       assert(!parsedLine.empty());
+      // overwrite 
       potential_map[std::move(parsedLine)] = target;
     }
   }
