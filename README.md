@@ -22,6 +22,12 @@ make -j4
 
 ### The binary will be ready for use
 
+In the `src/` folder
+
+```bash
+./md -i [inputfile]
+```
+
 ## Test and Examples
 
-See the example/ folder
+See the `example/` folder

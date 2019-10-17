@@ -6,7 +6,7 @@ A simple test and example of how to use this MD engine
 * [Bash](https://www.gnu.org/software/bash/)
 
 ## Compilation
-See the ../ folder
+See the `../` folder
 
 ## Test and Examples
 
